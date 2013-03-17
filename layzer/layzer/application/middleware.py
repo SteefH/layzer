@@ -13,6 +13,7 @@ class DependencyInjectionMiddleware(object):
             'feed_model': models.Feed,
             'subscription_model': models.Subscription,
             'feed_item_status_model': models.FeedItemStatus,
+            'feed_site_model': models.FeedSite,
             'feeddiscovery': feeddiscovery,
             'datetime': datetime,
             'SubscriptionService': beject.Singleton(SubscriptionService)

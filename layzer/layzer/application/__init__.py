@@ -1,3 +1,7 @@
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 import beject
 
@@ -23,8 +27,9 @@ class SubscriptionService(object):
         return cls(models.Feed, models.Subscription, feeddiscovery, datetime)
 
     @beject.inject
-    def __init__(self, feed_model, subscription_model, feeddiscovery, datetime):
+    def __init__(self, feed_model, feed_site_model, subscription_model, feeddiscovery, datetime):
         self.feed = feed_model
+        self.feed_site = feed_site_model
         self.subscription = subscription_model
         self.discovery = feeddiscovery
         self.datetime = datetime
@@ -35,27 +40,42 @@ class SubscriptionService(object):
         the feed at the url when there's no feed model yet for the url
         """
 
+        feed = site = None
         try:
-            return self.feed.objects.find_by_url(url)
+            feed = self.feed.objects.get(feed_url=url)
         except self.feed.DoesNotExist:
             pass
+
         try:
-            name, site_url, feed_url = self.discovery.discover(url)
-        except self.discovery.FeedException:
-            raise self.NoFeedException
-        feed = self.feed(name=name, site_url=site_url, feed_url=feed_url)
-        feed.save()
-        return feed
+            site = self.feed_site.objects.get(site_url=url)
+            feed = site.feed
+        except self.feed_site.DoesNotExist:
+            pass
+
+        if not feed and not site:
+            logger.info('Attempting feed discovery at {0}'.format(url))
+            try:
+                name, site_url, feed_url = self.discovery.discover(url)
+                logger.info('Feed found at {0}: {1}, {2}, {3}'.format(url, name, site_url, feed_url))
+            except self.discovery.FeedException:
+                raise self.NoFeedException
+            feed, created = self.feed.objects.get_or_create(feed_url=feed_url)
+            site, created = self.feed_site.objects.get_or_create(
+                feed=feed, site_url=url
+            )
+            site.name = name
+            site.save()
+        return site, feed
 
 
     def add_subscription(self, url, user):
-        feed = self._get_or_create_feed(url)
+        site, feed = self._get_or_create_feed(url)
         try:
             self.subscription.objects.get_by_feed_and_user(feed, user)
             raise self.AlreadySubscribedException
         except self.subscription.DoesNotExist:
             pass
-        sub = self.subscription(feed=feed, user=user, name=feed.name)
+        sub = self.subscription(site=site, user=user, name=site.name)
         sub.save()
         return sub
 
@@ -93,3 +113,5 @@ class FeedItemService(object):
         status = self._get_status(feed_item, user)
         status.starred_on = self.datetime.now()
         status.save()
+
+

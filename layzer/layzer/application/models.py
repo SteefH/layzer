@@ -18,16 +18,18 @@ class FeedManager(models.Manager):
         return self.get(query)
 
 class Feed(models.Model):
-
-
-    site_url = models.URLField()
     feed_url = models.URLField()
-    name = models.TextField()
     last_check = models.DateTimeField(null=True)
     last_update = models.DateTimeField(null=True)
     added = models.DateTimeField(auto_now_add=True)
 
     objects = FeedManager()
+
+class FeedSite(models.Model):
+
+    feed = models.ForeignKey(Feed)
+    site_url = models.URLField()
+    name = models.TextField()
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
@@ -40,7 +42,7 @@ class FeedItem(models.Model):
 class SubscriptionManager(models.Manager):
 
     def get_by_feed_and_user(self, feed, user):
-        return self.get(feed=feed, user=user)
+        return self.get(site__feed=feed, user=user)
 
     def filter_by_user(self, user, include_deleted=False):
         queryset = self.filter(user=user)
@@ -49,8 +51,7 @@ class SubscriptionManager(models.Manager):
         return queryset
 
 class Subscription(models.Model):
-
-    feed = models.ForeignKey(Feed)
+    site = models.ForeignKey(FeedSite)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     added = models.DateTimeField(auto_now_add=True)
     deleted_on = models.DateTimeField(null=True)
@@ -65,3 +66,4 @@ class FeedItemStatus(models.Model):
     kept_unread_on = models.DateTimeField(null=True, default=None)
     starred_on = models.DateTimeField(null=True, default=None)
     read_on = models.DateTimeField(null=True, default=None)
+
