@@ -13,7 +13,7 @@ def home(request):
     from django.template.loaders.app_directories import app_template_dirs
     print app_template_dirs
     return render_to_response(
-        'layzer_site/index.html',
+        'site/index.html',
         context_instance=RequestContext(request)
     )
 
@@ -21,9 +21,9 @@ def login(request):
     """Sign in
     """
     if request.user.is_authenticated():
-        return redirect(home)
+        return redirect('home')
     return render_to_response(
-        'layzer_site/accounts/login.html',
+        'site/accounts/login.html',
         context_instance=RequestContext(request)
     )
 

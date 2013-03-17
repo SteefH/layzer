@@ -76,7 +76,7 @@ def _discoverfeed(url, visited_urls):
     return _handle_response(r, visited_urls)
 
 
-def discoverfeed(url):
+def discover(url):
     result = _discoverfeed(url, set())
     if result is None:
         raise FeedException("No feed found")
@@ -84,4 +84,4 @@ def discoverfeed(url):
 
 if __name__ == '__main__':
     import sys
-    print discoverfeed(sys.argv[1])
+    print discover(sys.argv[1])

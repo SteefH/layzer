@@ -1,12 +1,25 @@
 """The models
 """
 
+# pylint: disable=R0903,C0111,W0232,E1101
+
 from django.conf import settings
 from django.db import models
 
 Q = models.Q
 
+class FeedManager(models.Manager):
+
+    def find_by_url(self, url):
+        query = (
+            Q(feed_url=url) |
+            Q(site_url=url)
+        )
+        return self.get(query)
+
 class Feed(models.Model):
+
+
     site_url = models.URLField()
     feed_url = models.URLField()
     name = models.TextField()
@@ -14,13 +27,7 @@ class Feed(models.Model):
     last_update = models.DateTimeField(null=True)
     added = models.DateTimeField(auto_now_add=True)
 
-    @classmethod
-    def find_by_url(cls, url):
-        query = (
-            Q(feed_url=url) |
-            Q(site_url=url)
-        )
-        return cls.objects.get(query)
+    objects = FeedManager()
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
@@ -30,6 +37,16 @@ class FeedItem(models.Model):
     short_body = models.TextField()
     body = models.TextField()
 
+class SubscriptionManager(models.Manager):
+
+    def get_by_feed_and_user(self, feed, user):
+        return self.get(feed=feed, user=user)
+
+    def filter_by_user(self, user, include_deleted=False):
+        queryset = self.filter(user=user)
+        if not include_deleted:
+            queryset = queryset.filter(deleted_on=None)
+        return queryset
 
 class Subscription(models.Model):
 
@@ -39,9 +56,8 @@ class Subscription(models.Model):
     deleted_on = models.DateTimeField(null=True)
     name = models.CharField(max_length=1024, null=True)
 
-    @classmethod
-    def get_by_feed_and_user(cls, feed, user):
-        return cls.objects.get(feed=feed, user=user)
+    objects = SubscriptionManager()
+
 
 class FeedItemStatus(models.Model):
     item = models.ForeignKey(FeedItem)

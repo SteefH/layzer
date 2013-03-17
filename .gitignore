@@ -165,7 +165,9 @@ pip-log.txt
 # project specific
 dev/
 env/
+beject/
 layzer/layzer/settings/dev.py
 
 *.sublime-project
 *.sublime-workspace
+

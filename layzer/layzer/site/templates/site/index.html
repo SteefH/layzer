@@ -1,4 +1,18 @@
 {% extends 'site/layout.html' %}
+{% load static from staticfiles %}
+{% block sidebar %}
+<ul ng-controller="SubscriptionsCtrl">
+	<li ng-repeat="subscription in subscriptions">
+		{{subscription.name}}
+	</li>
+</ul>
+{% endblock %}
 {% block content %}
 <h1>hoi</h1>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'site/app/app.js' %}"></script>
+<script src="{% static 'site/app/controllers/subscriptions.js' %}"></script>
+<script src="{% static 'site/app/services/subscriptions.js' %}"></script>
 {% endblock %}

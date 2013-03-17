@@ -118,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'layzer.application.middleware.DependencyInjectionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -206,6 +207,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL = 'layzer_site.views.login'
-LOGOUT_URL = 'layzer_site.views.logout'
+LOGIN_URL = 'layzer.site.views.login'
+LOGOUT_URL = 'layzer.site.views.logout'
 LOGIN_REDIRECT_URL = '/'
