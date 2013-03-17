@@ -1,0 +1,9 @@
+{% extends 'site/layout.html' %}
+
+{% block body %}
+<div class="span4 offset4">
+	<div class="well">
+		<a class="btn-large btn" href="{% url 'socialauth_begin' 'facebook' %}"><i class="icon-facebook"></i> Inloggen met Facebook</a>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="{% static "site/bootstrap/css/bootstrap.css" %}" type="text/css" />
+	</head>
+	<body>
+		<div class="navbar navbar-static-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="{% url 'home' %}">Lazyer</a>
+					{% if user.is_authenticated %}
+						<ul class="nav pull-right">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+									<li class="divider"></li>
+									<li><a href="{% url 'logout' %}">Separated link</a></li>
+								</ul>
+							</li>
+						</ul>
+					{% endif %}
+				</div>
+				
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				
+				
+				{% block body %}
+					<div class="span2">
+						{% block sidebar %}
+						{% endblock %}
+					</div>
+					<div class="span10">
+						{% block content %}
+						{% endblock %}
+					</div>
+				{% endblock %}
+			</div>
+		</div>
+		<script src="{% static 'site/jquery/jquery-1.9.1.js' %}"></script>
+		<script src="{% static 'site/bootstrap/js/bootstrap.js' %}"></script>
+	</body>
+</html>
