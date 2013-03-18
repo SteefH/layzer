@@ -226,3 +226,5 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = 'layzer.site.views.login'
 LOGOUT_URL = 'layzer.site.views.logout'
 LOGIN_REDIRECT_URL = '/'
+
+TASTYPIE_ALLOW_MISSING_SLASH=True

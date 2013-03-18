@@ -29,20 +29,16 @@ class Registry(object):
 
     def inject(self, fn):
         argspec = inspect.getargspec(fn)
+
         def decorator(*args, **kwds):
-            arg_counter = 0
-            newargs = []
+            if not kwds:
+                kwds = {}
+            else:
+                kwds = kwds.copy()
             for a in argspec.args:
                 if a in self._mapping:
-                    newargs.append(self.get(a))
-                else:
-                    try:
-                        arg = args[arg_counter]
-                    except IndexError:
-                        raise TypeError('No value given for ' + a)
-                    newargs.append(arg)
-                    arg_counter += 1
-            return fn(*newargs, **kwds)
+                    kwds[a] = self.get(a)
+            return fn(*args, **kwds)
         decorator.__name__ = fn.__name__
         decorator.__doc__ = fn.__doc__
         return decorator

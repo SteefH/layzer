@@ -1,6 +1,10 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
 {% block sidebar %}
+<form ng-controller="AddSubscriptionCtrl" ng-submit="add(siteUrl)">
+	<input ng-model="siteUrl" />
+	<button type="submit"><i class="icon-add"></i> Toevoegen</button>
+</form>
 <ul ng-controller="SubscriptionsCtrl">
 	<li ng-repeat="subscription in subscriptions">
 		{{subscription.name}}

@@ -17,6 +17,10 @@ class SubscriptionService(object):
         Exception raised when the user is already subscribed to a given feed.
         """
 
+    class DoesNotExistException(Exception):
+        pass
+
+
     @classmethod
     def create_default(cls):
         """Create the default service
@@ -71,7 +75,9 @@ class SubscriptionService(object):
     def add_subscription(self, url, user):
         site, feed = self._get_or_create_feed(url)
         try:
-            self.subscription.objects.get_by_feed_and_user(feed, user)
+            sub = self.subscription.objects.get_by_feed_and_user(
+                feed, user
+            )
             raise self.AlreadySubscribedException
         except self.subscription.DoesNotExist:
             pass
@@ -86,6 +92,15 @@ class SubscriptionService(object):
     def get_all(self, user):
         subs =  self.subscription.objects.filter_by_user(user).select_related('feed')
         return subs
+
+    def get_subscription(self, feed_url, user):
+        try:
+            feed = self.feed.objects.get(feed_url=feed_url)
+            return self.subscription.objects.get_by_feed_and_user(
+                feed, user
+            )
+        except (self.feed.DoesNotExist, self.subscription.DoesNotExist):
+            raise self.DoesNotExistException
 
 
 class FeedItemService(object):
