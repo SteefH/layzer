@@ -6,7 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-
+from django.core.exceptions import MiddlewareNotUsed
 
 class AddSubscriptionTest(TestCase):
 
@@ -23,7 +23,7 @@ class AddSubscriptionTest(TestCase):
         import beject
         try:
             di()
-        except:
+        except MiddlewareNotUsed:
             pass
         self.subscriptions_service = beject.get('SubscriptionService')
         self.subscription_model = beject.get('subscription_model')
