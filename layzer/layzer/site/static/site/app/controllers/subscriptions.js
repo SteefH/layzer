@@ -2,7 +2,7 @@
     ng.module('layzer').controller(
         'SubscriptionsCtrl',
         ['$scope', 'subscriptionsservice', function($scope, subscriptions) {
-            $scope.subscriptions = subscriptions.query();
+            $scope.subscriptions = subscriptions.getAll();
         }]
     ).controller(
         'AddSubscriptionCtrl',

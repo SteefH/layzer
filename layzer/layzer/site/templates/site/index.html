@@ -3,13 +3,36 @@
 {% block sidebar %}
 <form ng-controller="AddSubscriptionCtrl" ng-submit="add(siteUrl)">
 	<input ng-model="siteUrl" />
-	<button type="submit"><i class="icon-add"></i> Toevoegen</button>
+	<button type="submit" class="btn"><i class="icon-plus-sign"></i> Toevoegen</button>
 </form>
-<ul ng-controller="SubscriptionsCtrl">
-	<li ng-repeat="subscription in subscriptions">
-		{{subscription.name}}
-	</li>
-</ul>
+<div ng-controller="SubscriptionsCtrl">
+	<ul>
+		<li ng-repeat="subscription in subscriptions">
+			<span ng-bind="subscription.name"></span>
+			<div class="btn-group pull-right">
+				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="javascript:void(0)" ng-click="$parent.renameSubscription=subscription;$parent.newName=subscription.name">Hernoemen</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+	<div class="modal" ng-show="renameSubscription">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="renameSubscription=null">&times;</button>
+			<h3>Hernoemen</h3>
+		</div>
+		<div class="modal-body">
+			<input type="text" ng-model="newName" />
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="renameSubscription.name=newName;renameSubscription.$save();renameSubscription=null">Opslaan</button>
+			<button class="btn" ng-click="renameSubscription=null">Annuleren</button>
+		</div>
+	</div>
+</div>
 {% endblock %}
 {% block content %}
 <h1>hoi</h1>
