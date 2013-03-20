@@ -2,6 +2,24 @@
   display: none;
 }
 
+body {
+	/*color: #fff;*/
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 0;
+	padding-top: 20px;
+}
+
+.sidebar {
+	margin-left: -20px;
+	padding-left: 0;
+	position: absolute;
+	height: 100%;
+}
+
 .add-subscription-form {
 	/*height: 30px;*/
 }
@@ -12,19 +30,39 @@
 
 body > .container-fluid {
 	/*margin-top: 40px;*/
+	height: 100%;
 }
 
 .subscription .options {
-	display: none;
+	opacity:0;
+	-webkit-transition: 0.3s ease-out;
+-moz-transition: 0.3s ease-out;
+-o-transition: 0.3s ease-out;
+transition: 0.3s ease-out;
+	/*filter:;*/
 }
 
+.subscription {
+	line-height: 20px;
+	border-radius: 4px;
+	padding: 6px 9px;
+-webkit-transition: 0.3s ease-out;
+-moz-transition: 0.3s ease-out;
+-o-transition: 0.3s ease-out;
+transition: 0.3s ease-out;
+}
+
+.subscription:hover {
+	background-color: #ecf0f1;
+}
 .subscription:hover .options {
-	display: block;
+	opacity: 1;
 }
 
 .navbar .nav .user-menu > ul {
 	left: auto;
 	right: 15px;
+	width: auto;
 }
 
 .navbar .nav > li.user-menu > ul:before {
@@ -37,4 +75,108 @@ body, html {
 
 .navbar .nav .add-subscription-form input[type="text"] {
 	margin-top: 5px;
+}
+
+.navbar .nav > li > ul {
+	background: transparent;
+}
+
+  .dropdown-hover:hover > ul {
+    top: 100%; }
+  .dropdown-hover > ul {
+    padding-top: 15px;
+    top: 80%;
+    /*background-color: white\9;*/
+    left: -16px;
+	}
+    .dropdown-hover > ul:before {
+      content: "";
+      border-style: solid;
+      border-width: 0 9px 9px 9px;
+      border-color: transparent transparent #34495e transparent;
+      height: 0px;
+      position: absolute;
+      left: 15px;
+      bottom: 100%;
+      margin-bottom: -15px;
+      width: 0px;
+      -webkit-transform: rotate(360deg); }
+    .dropdown-hover > ul li:hover ul {
+      opacity: 1;
+      -webkit-transform: scale(1, 1);
+      visibility: visible;
+      display: block\9; }
+    .dropdown-hover > ul li ul {
+      left: 100%; }
+  .dropdown-hover > ul a {
+    padding: 14px 15px 17px; }
+    .dropdown-hover > a:hover {
+      color: #1abc9c; }
+  .dropdown-hover {
+    position: relative; }
+    .dropdown-hover:hover > ul {
+      opacity: 1;
+      z-index: 100;
+      -webkit-transform: scale(1, 1);
+      visibility: visible;
+      display: block\9; }
+  .dropdown-hover ul {
+    border-radius: 4px;
+    /*left: 15px;*/
+    list-style-type: none;
+    margin-left: 0;
+    opacity: 0;
+    position: absolute;
+    /*top: 0;*/
+    /*width: 234px;*/
+    z-index: -100;
+    -webkit-transform: scale(1, 0.99);
+    -webkit-transform-origin: 0 0;
+    visibility: hidden;
+    display: none\9;
+    -webkit-transition: 0.3s ease-out;
+    -moz-transition: 0.3s ease-out;
+    -o-transition: 0.3s ease-out;
+    transition: 0.3s ease-out;
+    -webkit-backface-visibility: hidden; }
+    .dropdown-hover ul ul {
+      left: 95%;
+      padding-left: 5px; }
+    .dropdown-hover ul li {
+      background-color: #34495e;
+      padding: 0 3px 3px; }
+      .dropdown-hover ul li:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        padding-top: 3px; }
+      .dropdown-hover li:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+      .dropdown-hover ul li.active > a, .navbar .nav ul li.active > a:hover {
+        background-color: #1abc9c;
+        color: white; }
+    .dropdown-hover ul a {
+      border-radius: 2px;
+      color: white;
+      display: block;
+      font-size: 14px;
+      padding: 6px 9px;
+      text-decoration: none; }
+      .dropdown-hover ul a:hover {
+        background-color: #1abc9c; }
+        
+.modal-backdrop {
+	background-color: #34495E;
+}
+
+.modal {
+	box-shadow: none;
+	border: 0;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+	border: none;
 }

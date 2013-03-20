@@ -1,3 +1,3 @@
 ;(function (ng) {
-    ng.module('layzer', ['ngResource', 'effects', 'keys']);
+    ng.module('layzer', ['ngResource', 'effects', 'input', 'modal']);
 }(angular))

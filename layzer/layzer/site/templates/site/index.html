@@ -1,46 +1,58 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
 {% block sidebar %}
-<div class="well palette-carrot">
+<div ng-controller="AddSubscriptionCtrl">
+	
+	<button class="btn btn-primary btn-large span12" ng-click="url='';subscribing=true">Abonneren</button>
+	<div effects-fade="subscribing" effects-fade-speed="200" ng-cloak>
+		<div class="modal-backdrop" ng-click="subscribing=false"></div>
+		<form
+			modal
+			title="Abonneren"
+			close="subscribing=false"
+			submit="add(url)"
+			ok-text="Abonneren"
+			cancel-text="Annuleren"
+			input-on-escape="subscribing=false"
+			>
+			<input type="text" class="span12" ng-model="url" placeholder="Feed of site adres" />
+		</form>
+	</div>
+</div>
 
 <div ng-controller="SubscriptionsCtrl">
-	<ul>
+	
+
+	
+	<ul class="unstyled">
 		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
 			<span ng-bind="subscription.name"></span>
-			<div class="options btn-group pull-right">
-				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
+			<div class="options dropdown-hover pull-right">
+				<i class="icon-cog"></i>
+				<ul>
 					<li><a href="javascript:void(0)" ng-click="$parent.renameSubscription=subscription;$parent.newName=subscription.name">Hernoemen</a></li>
 				</ul>
 			</div>
 		</li>
 	</ul>
-	<div effects-fade="renameSubscription" effects-fade-speed="100" ng-cloak>
+	<div effects-fade="renameSubscription" effects-fade-speed="200" ng-cloak>
 		<div class="modal-backdrop" ng-click="renameSubscription=null"></div>
-		<div class="modal">
-			<div class="modal-header">
-				<button type="button" class="close" ng-click="renameSubscription=null">&times;</button>
-				<h3>Hernoemen</h3>
+		<form
+			modal
+			title="Hernoemen"
+			close="renameSubscription=null"
+			submit="renameSubscription.name=newName;renameSubscription.$save()"
+			ok-text="Opslaan"
+			cancel-text="Annuleren"
+			>
+			<div class="control-group">
+				<label class="control-label" for="feed-name">Naam</label>
+				<div class="controls">
+					<input type="text" ng-model="newName" id="feed-name"/>
+				</div>
 			</div>
-			<form ng-submit="renameSubscription=null">
-				<div class="modal-body form-horizontal">
-					<div class="control-group">
-						<label class="control-label" for="feed-name">Naam</label>
-						<div class="controls">
-							<input type="text" ng-model="newName" id="feed-name"/>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" ng-click="renameSubscription.name=newName;renameSubscription.$save()">Opslaan</button>
-					<button class="btn">Annuleren</button>
-				</div>
-			</form>
-		</div>
+		</form>
 	</div>
-</div>
 </div>
 {% endblock %}
 {% block content %}
@@ -50,4 +62,5 @@
 {% block scripts %}
 <script src="{% static 'site/app/controllers/subscriptions.js' %}"></script>
 <script src="{% static 'site/app/services/subscriptions.js' %}"></script>
+
 {% endblock %}
