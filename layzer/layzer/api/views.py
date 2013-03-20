@@ -17,7 +17,6 @@ class Autho(Authorization):
 
     def create_list(self, *args, **kwds):
         result = super(Autho, self).create_list(*args, **kwds)
-        print result
         return result
 
 from lazyproperty import lazyproperty
