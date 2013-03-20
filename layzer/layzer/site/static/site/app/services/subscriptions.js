@@ -1,7 +1,7 @@
 ;(function (ng) {
     "use strict";
     ng.module('layzer').factory('subscriptionsservice', ['$resource', function ($resource) {
-        var resource = $resource('/api/v1/subscription/:id', {
+        var Subscription = $resource('/api/v1/subscription/:id', {
             id: '@id'
         }, {
             query: {
@@ -14,7 +14,12 @@
             }
         });
         return {
-            getAll: ng.bind(resource, resource.query)
+            getAll: ng.bind(Subscription, Subscription.query),
+            add: function (url) {
+                var sub = new Subscription({site_url: url});
+                sub.$save();
+                return sub;
+            }
         };
     }]);
 }(angular));

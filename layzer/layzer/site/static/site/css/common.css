@@ -1,0 +1,40 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+
+.add-subscription-form {
+	/*height: 30px;*/
+}
+
+.add-subscription-form > span {
+	position: absolute;
+}
+
+body > .container-fluid {
+	/*margin-top: 40px;*/
+}
+
+.subscription .options {
+	display: none;
+}
+
+.subscription:hover .options {
+	display: block;
+}
+
+.navbar .nav .user-menu > ul {
+	left: auto;
+	right: 15px;
+}
+
+.navbar .nav > li.user-menu > ul:before {
+	left: auto;
+	right: 15px;
+}
+body, html {
+	min-height: 100%;
+}
+
+.navbar .nav .add-subscription-form input[type="text"] {
+	margin-top: 5px;
+}

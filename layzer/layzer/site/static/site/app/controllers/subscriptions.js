@@ -7,12 +7,7 @@
     ).controller(
         'AddSubscriptionCtrl',
         ['$scope', 'subscriptionsservice', function ($scope, Subscription) {
-            $scope.add = function (siteUrl) {
-                var subscription = new Subscription({
-                    site_url: siteUrl
-                });
-                subscription.$save();
-            };
+            $scope.add = Subscription.add;
         }]
     );
 }(angular));

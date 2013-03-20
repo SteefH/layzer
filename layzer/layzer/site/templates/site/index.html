@@ -1,15 +1,13 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
 {% block sidebar %}
-<form ng-controller="AddSubscriptionCtrl" ng-submit="add(siteUrl)">
-	<input ng-model="siteUrl" />
-	<button type="submit" class="btn"><i class="icon-plus-sign"></i> Toevoegen</button>
-</form>
+<div class="well palette-carrot">
+
 <div ng-controller="SubscriptionsCtrl">
 	<ul>
-		<li ng-repeat="subscription in subscriptions">
+		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
 			<span ng-bind="subscription.name"></span>
-			<div class="btn-group pull-right">
+			<div class="options btn-group pull-right">
 				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
 					<span class="caret"></span>
 				</a>
@@ -19,19 +17,30 @@
 			</div>
 		</li>
 	</ul>
-	<div class="modal" ng-show="renameSubscription">
-		<div class="modal-header">
-			<button type="button" class="close" ng-click="renameSubscription=null">&times;</button>
-			<h3>Hernoemen</h3>
-		</div>
-		<div class="modal-body">
-			<input type="text" ng-model="newName" />
-		</div>
-		<div class="modal-footer">
-			<button class="btn btn-primary" ng-click="renameSubscription.name=newName;renameSubscription.$save();renameSubscription=null">Opslaan</button>
-			<button class="btn" ng-click="renameSubscription=null">Annuleren</button>
+	<div effects-fade="renameSubscription" effects-fade-speed="100" ng-cloak>
+		<div class="modal-backdrop" ng-click="renameSubscription=null"></div>
+		<div class="modal">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="renameSubscription=null">&times;</button>
+				<h3>Hernoemen</h3>
+			</div>
+			<form ng-submit="renameSubscription=null">
+				<div class="modal-body form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="feed-name">Naam</label>
+						<div class="controls">
+							<input type="text" ng-model="newName" id="feed-name"/>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="renameSubscription.name=newName;renameSubscription.$save()">Opslaan</button>
+					<button class="btn">Annuleren</button>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}
 {% block content %}
@@ -39,7 +48,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'site/app/app.js' %}"></script>
 <script src="{% static 'site/app/controllers/subscriptions.js' %}"></script>
 <script src="{% static 'site/app/services/subscriptions.js' %}"></script>
 {% endblock %}

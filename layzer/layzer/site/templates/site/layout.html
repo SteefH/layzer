@@ -2,26 +2,38 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="{% static "site/bootstrap/css/bootstrap.css" %}" type="text/css" />
+		<link rel="stylesheet" href="{% static "site/flat-ui/css/bootstrap.css" %}" type="text/css" />
+		<link rel="stylesheet" href="{% static "site/flat-ui/css/flat-ui.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/font-awesome/css/font-awesome.css" %}" type="text/css" />
+		<link rel="stylesheet" href="{% static "site/css/common.css" %}" type="text/css" />
 	</head>
-	<body ng-app="layzer">
+	<body ng-app="layzer" class="palette-night-dark">
 		{% block outer %}
-		<div class="navbar navbar-static-top">
+		<div class="navbar navbar-static-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container-fluid">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar pull-right"></span>
+					</button>
 					<a class="brand" href="{% url 'home' %}">Layzer</a>
 					{% if user.is_authenticated %}
-						<ul class="nav pull-right">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-									<li class="divider"></li>
-									<li><a href="{% url 'logout' %}">Separated link</a></li>
-								</ul>
-							</li>
-						</ul>
+						<div class="nav-collapse collapse">
+							<ul class="nav">
+								<li class="span5">
+									{% include 'site/includes/addsubscription.html' %}
+								</li>
+							</ul>
+							<ul class="nav pull-right">
+								<li class="user-menu"><a href="#">{{user.username}}</a>
+									<ul>
+										<li><a href="#"><i class="igfdcon-cog"></i> Settings</a></li>
+										<li><a href="{% url 'logout' %}"><i class="igfdcon-sign-out"></i> Uitloggen</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 					{% endif %}
 				</div>
 				
@@ -32,11 +44,11 @@
 				
 				
 				{% block body %}
-					<div class="span2">
+					<div class="span4 palette ">
 						{% block sidebar %}
 						{% endblock %}
 					</div>
-					<div class="span10">
+					<div class="span8">
 						{% block content %}
 						{% endblock %}
 					</div>
@@ -45,9 +57,19 @@
 		</div>
 		{% endblock %}
 		<script src="{% static 'site/jquery/jquery-1.9.1.js' %}"></script>
-		<script src="{% static 'site/bootstrap/js/bootstrap.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/jquery-ui-1.10.0.custom.min.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/jquery.dropkick-1.0.0.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/custom_checkbox_and_radio.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/custom_radio.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/jquery.tagsinput.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/bootstrap-tooltip.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/jquery.placeholder.js' %}"></script>
+		<script src="{% static 'site/flat-ui/js/application.js' %}"></script>
+		<!-- script src="{% static 'site/bootstrap/js/bootstrap.js' %}"></script -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular-resource.js"></script>
+		<script src="{% static 'site/app/modules/effects.js' %}"></script>
+		<script src="{% static 'site/app/modules/keys.js' %}"></script>
 		<script src="{% static 'site/app/app.js' %}"></script>
 		{% block scripts %}
 		{% endblock %}

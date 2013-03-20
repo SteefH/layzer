@@ -6,8 +6,12 @@
 		<div class="span6 offset3">
 			<div class="hero-unit">
 				<h1>Layzer <small>Feed reader for reading feeds</small></h1>
-				<p>Log in with one of the following</p>
-				<p><a class="btn-large btn btn-primary" href="{% url 'socialauth_begin' 'facebook' %}"><i class="icon-facebook-sign icon-3x"></i> </a></p>
+					<p>Log in with one of the following</p>
+					<p>
+					
+						<a class="btn-large btn span2 palette-info-dark" href="{% url 'socialauth_begin' 'facebook' %}"><i class="icon-facebook icon-3x"></i></a>
+						<a class="btn-large btn span2 palette-info" href="{% url 'socialauth_begin' 'twitter' %}"><i class="icon-twitter icon-3x"></i></a>
+					</p>
 			</div>
 		</div>
 	</div>

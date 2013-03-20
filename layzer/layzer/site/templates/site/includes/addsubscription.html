@@ -1,0 +1,9 @@
+<form ng-controller="AddSubscriptionCtrl" ng-submit="add(siteUrl);showInputs=false" class="form-inline add-subscription-form">
+	<span effects-fade="showInputs" effects-fade-speed="100" ng-cloak>
+		<input ng-model="siteUrl" type="text" placeholder="Site of feed URL" keys-on-escape="showInputs=false" />
+		<button type="submit" class="btn" ng-disabled="!siteUrl"><i class="icon-plus"></i></button>
+	</span>
+	<span effects-fade="!showInputs" effects-fade-speed="100">
+		<a class="btn btn-large" ng-click="showInputs=true">Site of feed toevoegen</a>
+	</span>
+</form>
