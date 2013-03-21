@@ -4,9 +4,7 @@
 <div ng-controller="AddSubscriptionCtrl">
 	
 	<button class="btn btn-primary btn-large span12" ng-click="url='';subscribing=true">Abonneren</button>
-	<div effects-fade="subscribing" effects-fade-speed="200" ng-cloak>
-		<div class="modal-backdrop" ng-click="subscribing=false"></div>
-		<form
+	<div effects-fade="subscribing" effects-fade-speed="200" ng-cloak
 			modal
 			title="Abonneren"
 			close="subscribing=false"
@@ -16,7 +14,6 @@
 			input-on-escape="subscribing=false"
 			>
 			<input type="text" class="span12" ng-model="url" placeholder="Feed of site adres" />
-		</form>
 	</div>
 </div>
 
@@ -35,9 +32,7 @@
 			</div>
 		</li>
 	</ul>
-	<div effects-fade="renameSubscription" effects-fade-speed="200" ng-cloak>
-		<div class="modal-backdrop" ng-click="renameSubscription=null"></div>
-		<form
+	<div effects-fade="renameSubscription" effects-fade-speed="200" ng-cloak
 			modal
 			title="Hernoemen"
 			close="renameSubscription=null"
@@ -51,7 +46,6 @@
 					<input type="text" ng-model="newName" id="feed-name"/>
 				</div>
 			</div>
-		</form>
 	</div>
 </div>
 {% endblock %}
