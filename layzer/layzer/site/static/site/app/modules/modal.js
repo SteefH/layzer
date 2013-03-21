@@ -7,14 +7,14 @@
             '<div class="modal-backdrop" ng-click="{{modal.cancel}};{{modal.close}}"></div>' +
             '<form class="modal" ng-submit="{{modal.close}}">' +
                 '<div class="modal-header">' +
-                    '<button type="button" class="close" ng-click="{{modal.cancel}};{{modal.close}}">&times;</button>' +
+                    '<button type="button" class="close" ng-click="{{modal.cancel}};{{modal.close}}"><span class="iconic iconic-x"></span></button>' +
                     '<h3>{{modal.header}}</h3>' +
                 '</div>' +
                 '<div class="modal-body">' +
                 '</div>' +
                 '<div class="modal-footer">' +
-                    '<button class="btn btn-large btn-primary" ng-click="{{modal.submit}}">{{modal.okText || \'OK\'}}</button>' +
-                    '<button class="btn btn-large" ng-click="{{modal.cancel}}">{{modal.cancelText || \'Cancel\'}}</button>' +
+                    '<button class="btn btn-large btn-primary" ng-click="{{modal.submit}}"><span class="iconic iconic-check"></span> {{modal.okText || \'OK\'}}</button>' +
+                    '<button class="btn btn-large" ng-click="{{modal.cancel}}"><span class="iconic iconic-x"></span> {{modal.cancelText || \'Cancel\'}}</button>' +
                 '</div>' +
             '</form>'
         );
