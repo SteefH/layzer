@@ -12,7 +12,7 @@
             speedName = 'effects' + ucName + 'Speed';
 
         directive(directiveName, ['$timeout', function ($timeout) {
-            var result = { }, link;
+            var link;
 
             link = function (scope, element, attributes) {
                 var expr = attributes[directiveName],
@@ -23,22 +23,20 @@
                     // nothing
                 }
                 scope.$watch(expr, function (value) {
-                    $timeout(function () {
-                        element.stop(true);
-                        element[value ? inFunc : outFunc](speed);
-                    });
+                    element.stop(true);
+                    element[value ? inFunc : outFunc](speed);
                 });
                 element[scope.$eval(expr) ? 'show' : 'hide']();
             };
             if (initiallyHidden) {
-                result.compile = function (element) {
-                    element.hide();
-                    return link;
+                return {
+                    compile: function (element) {
+                        element.hide();
+                        return link;
+                    }
                 };
-            } else {
-                result.link = link;
             }
-            return result;
+            return link;
         }]);
     };
 

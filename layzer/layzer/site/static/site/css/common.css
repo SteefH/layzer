@@ -10,7 +10,7 @@ body {
 	left: 0;
 	right: 0;
 	padding: 0;
-	padding-top: 20px;
+  font-weight: 400;
 }
 
 .sidebar {
@@ -28,9 +28,9 @@ body {
 	position: absolute;
 }
 
-body > .container-fluid {
-	/*margin-top: 40px;*/
-	height: 100%;
+body > .container {
+	margin-top: 40px;
+
 }
 
 .subscription .options {
@@ -71,6 +71,22 @@ transition: 0.3s ease-out;
 }
 body, html {
 	min-height: 100%;
+}
+
+.navbar  a.brand {
+  text-decoration: none;
+  font-size: 2em;
+  line-height: 51px;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #fff;
+}
+
+.brand {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 900;
+  text-transform: lowercase;
 }
 
 .navbar .nav .add-subscription-form input[type="text"] {
@@ -179,4 +195,26 @@ body, html {
 .modal-body,
 .modal-footer {
 	border: none;
+}
+input.input-block-level {
+  height: auto;
+}
+
+.btn-large {
+  
+  font-weight: 300;
+}
+h1, h2, h3, h4, h5, h6 {
+    
+    font-weight: 900;
+}
+
+h1 small {
+  font-weight: 100;
+}
+
+.brand i {
+  color: #F39C12;
+  font-size: 1.4ex;
+  margin-left: -0.25ex;
 }

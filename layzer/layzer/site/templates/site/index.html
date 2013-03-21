@@ -3,17 +3,17 @@
 {% block sidebar %}
 <div ng-controller="AddSubscriptionCtrl">
 	
-	<button class="btn btn-primary btn-large span12" ng-click="url='';subscribing=true">Abonneren</button>
+	<button class="btn btn-primary btn-large btn-block" ng-click="url='';subscribing=true">Abonneren</button>
 	<div effects-fade="subscribing" effects-fade-speed="200" ng-cloak
-			modal
-			title="Abonneren"
+			modal-window
+			header="Abonneren"
 			close="subscribing=false"
 			submit="add(url)"
 			ok-text="Abonneren"
 			cancel-text="Annuleren"
 			input-on-escape="subscribing=false"
 			>
-			<input type="text" class="span12" ng-model="url" placeholder="Feed of site adres" />
+			<input type="text" class="input-block-level" ng-model="url" placeholder="Feed of site adres" auto-focus="subscribing" />
 	</div>
 </div>
 
@@ -33,19 +33,15 @@
 		</li>
 	</ul>
 	<div effects-fade="renameSubscription" effects-fade-speed="200" ng-cloak
-			modal
-			title="Hernoemen"
+			modal-window
+			header="Hernoemen"
 			close="renameSubscription=null"
 			submit="renameSubscription.name=newName;renameSubscription.$save()"
 			ok-text="Opslaan"
 			cancel-text="Annuleren"
+			input-on-escape="renameSubscription=null"
 			>
-			<div class="control-group">
-				<label class="control-label" for="feed-name">Naam</label>
-				<div class="controls">
-					<input type="text" ng-model="newName" id="feed-name"/>
-				</div>
-			</div>
+			<input type="text" ng-model="newName" id="feed-name" class="input-block-level" auto-focus="renameSubscription" />
 	</div>
 </div>
 {% endblock %}
