@@ -4,7 +4,7 @@
 <div ng-controller="AddSubscriptionCtrl">
 	
 	<button class="btn btn-primary btn-large btn-block" ng-click="url='';subscribing=true">Abonneren</button>
-	<div effects-fade="subscribing" effects-fade-speed="200" ng-cloak
+	<div ng-form effects-fade="subscribing" effects-fade-speed="200" ng-cloak
 			modal-window
 			header="Abonneren"
 			close="subscribing=false"
@@ -13,7 +13,13 @@
 			cancel-text="Annuleren"
 			input-on-escape="subscribing=false"
 			>
-			<input type="text" class="input-block-level" ng-model="url" placeholder="Feed of site adres" auto-focus="subscribing" />
+			<div class="control-group" ng-class="errorClass('url')">
+				<input type="url"
+					class="input-block-level"
+					ng-model="url"
+					placeholder="Feed of site adres"
+					auto-focus="subscribing"  name="url" required />
+			</div>
 	</div>
 </div>
 
@@ -21,11 +27,11 @@
 	
 
 	
-	<ul class="unstyled">
+	<ul class="unstyled feed-list">
 		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
 			<span ng-bind="subscription.name"></span>
 			<div class="options dropdown-hover pull-right">
-				<span class="iconic iconic-cog"></span>
+				<i class="icon-edit"></i>
 				<ul>
 					<li><a href="javascript:void(0)" ng-click="$parent.renameSubscription=subscription;$parent.newName=subscription.name">Hernoemen</a></li>
 				</ul>

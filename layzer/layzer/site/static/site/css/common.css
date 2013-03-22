@@ -28,8 +28,10 @@ body {
 	position: absolute;
 }
 
-body > .container {
-	margin-top: 40px;
+body > .container,
+body > .container-fluid,
+.feed-list {
+	margin-top: 20px;
 
 }
 
