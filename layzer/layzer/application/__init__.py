@@ -102,6 +102,13 @@ class SubscriptionService(object):
         except (self.feed.DoesNotExist, self.subscription.DoesNotExist):
             raise self.DoesNotExistException
 
+    def save_subscription(self, feed_url, data, user):
+        obj = self.get_subscription(feed_url, user)
+        for key, value in data.items():
+            if key != 'id' and hasattr(obj, key):
+                setattr(obj, key, value)
+        obj.save()
+        return obj
 
 class FeedItemService(object):
 

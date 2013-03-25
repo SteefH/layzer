@@ -86,11 +86,15 @@ class SubscriptionResource(Resource):
         return bundle
 
     def obj_update(self, bundle, **kwargs):
-        print kwargs
         try:
-            bundle.obj = self.subscription_service.get_subscription(kwargs['pk'], bundle.request.user)
+            bundle.obj = self.subscription_service.save_subscription(
+                kwargs['pk'], bundle.data, bundle.request.user
+            )
         except self.subscription_service.DoesNotExistException:
             self.raise_error(bundle, 'Not found', http.HttpNotFound)
+        return bundle
+
+    def obj_delete(self, bundle):
         return bundle
 
 
