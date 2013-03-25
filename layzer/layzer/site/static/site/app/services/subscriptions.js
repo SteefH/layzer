@@ -11,6 +11,9 @@
                     data = ng.fromJson(data);
                     return data.objects;
                 }
+            },
+            update: {
+                method: 'PUT'
             }
         });
         return {
@@ -19,6 +22,9 @@
                 var sub = new Subscription({site_url: url});
                 sub.$save();
                 return sub;
+            },
+            edit: function (subscription) {
+                return subscription.$update();
             }
         };
     }]);

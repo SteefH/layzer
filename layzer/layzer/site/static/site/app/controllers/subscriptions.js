@@ -3,6 +3,9 @@
         'SubscriptionsCtrl',
         ['$scope', 'subscriptionsservice', function($scope, subscriptions) {
             $scope.subscriptions = subscriptions.getAll();
+            $scope.editSubscription = function (subscription) {
+                subscriptions.edit(subscription);
+            };
         }]
     ).controller(
         'AddSubscriptionCtrl',
