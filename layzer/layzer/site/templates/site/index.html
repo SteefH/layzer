@@ -1,29 +1,28 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
 {% block sidebar %}
-<div ng-controller="AddSubscriptionCtrl">
+<div ng-controller="SubscriptionsCtrl">
 	
-	<button class="btn btn-primary btn-large btn-block" ng-click="url='';subscribing=true">Abonneren</button>
-	<div ng-form effects-fade="subscribing" effects-fade-speed="200" ng-cloak
+	<button class="btn btn-primary btn-large btn-block" ng-click="subscribe.start()">Abonneren</button>
+	<div ng-form effects-fade="subscribe.active" effects-fade-speed="200" ng-cloak
 			modal-window
 			header="Abonneren"
-			close="subscribing=false"
-			submit="add(url)"
+			close="subscribe.end()"
+			submit="subscribe.submit()"
 			ok-text="Abonneren"
 			cancel-text="Annuleren"
-			input-on-escape="subscribing=false"
+			input-on-escape="subscribe.end()"
 			>
+			<p>Voer het adres van een site of een RSS feed in:</p>
 			<div class="control-group" ng-class="errorClass('url')">
 				<input type="url"
 					class="input-block-level"
-					ng-model="url"
+					ng-model="subscribe.url"
 					placeholder="Feed of site adres"
-					auto-focus="subscribing"  name="url" required />
+					auto-focus="subscribe.active"  name="url" required />
 			</div>
 	</div>
-</div>
 
-<div ng-controller="SubscriptionsCtrl">
 	
 
 	
@@ -31,23 +30,46 @@
 		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
 			<span ng-bind="subscription.name"></span>
 			<div class="options dropdown-hover pull-right">
-				<i class="icon-edit"></i>
+				<i class="icon-wrench"></i>
 				<ul>
-					<li><a href="javascript:void(0)" ng-click="$parent.renameSubscription=subscription;$parent.newName=subscription.name">Hernoemen</a></li>
+					<li><a href="javascript:void(0)" ng-click="rename.start(subscription)"><i class="icon-edit"></i> Naam wijzigen</a></li>
+					<li><a href="javascript:void(0)" ng-click="remove.start(subscription)"><i class="icon-trash"></i> Verwijderen</a></li>
 				</ul>
 			</div>
 		</li>
 	</ul>
-	<div effects-fade="renameSubscription" effects-fade-speed="200" ng-cloak
+	<div effects-fade="rename.active" effects-fade-speed="200" ng-cloak
 			modal-window
-			header="Hernoemen"
-			close="renameSubscription=null"
-			submit="renameSubscription.name=newName;editSubscription(renameSubscription)"
+			header="Naam wijzigen"
+			close="rename.end()"
+			submit="rename.submit()"
 			ok-text="Opslaan"
 			cancel-text="Annuleren"
-			input-on-escape="renameSubscription=null"
+			input-on-escape="rename.end()"
 			>
-			<input type="text" ng-model="newName" id="feed-name" class="input-block-level" auto-focus="renameSubscription" required />
+			<p>Voer een nieuwe naam in voor deze site:</p>
+			<div class="control-group" ng-class="errorClass('url')">
+				<input type="text" ng-model="rename.newName" id="feed-name" class="input-block-level" auto-focus="rename.active" required />
+			</div>
+	</div>
+	
+	<div effects-fade="remove.active" effects-fade-speed="200" ng-cloak
+			modal-window
+			header="Verwijderen"
+			close="remove.end()"
+			submit="remove.submit()"
+			ok-text="Ja"
+			cancel-text="Nee"
+			>
+			<p>Weet je zeker dat je <strong ng-bind="remove.subscription.name"></strong> wilt verwijderen?</p>
+	</div>
+		<div effects-fade="alert.active" effects-fade-speed="200" ng-cloak
+			modal-window
+			close="alert.end()"
+			ok-text="Sluiten"
+			hide-cancel="true"
+			>
+			<p ng-bind="alert.message"></p>
 	</div>
 </div>
 {% endblock %}

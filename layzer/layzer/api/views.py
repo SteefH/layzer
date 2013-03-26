@@ -94,7 +94,11 @@ class SubscriptionResource(Resource):
             self.raise_error(bundle, 'Not found', http.HttpNotFound)
         return bundle
 
-    def obj_delete(self, bundle):
+    def obj_delete(self, bundle, **kwargs):
+        self.subscription_service.delete_subscription(
+            kwargs['pk'], bundle.request.user
+        )
+        bundle.obj = None
         return bundle
 
 

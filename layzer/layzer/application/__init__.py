@@ -78,10 +78,12 @@ class SubscriptionService(object):
             sub = self.subscription.objects.get_by_feed_and_user(
                 feed, user
             )
-            raise self.AlreadySubscribedException
+            if sub.deleted_on is not None:
+                sub.deleted_on = None
+            else:
+                raise self.AlreadySubscribedException
         except self.subscription.DoesNotExist:
-            pass
-        sub = self.subscription(site=site, user=user, name=site.name)
+            sub = self.subscription(site=site, user=user, name=site.name)
         sub.save()
         return sub
 
@@ -102,13 +104,21 @@ class SubscriptionService(object):
         except (self.feed.DoesNotExist, self.subscription.DoesNotExist):
             raise self.DoesNotExistException
 
+    _editable_fields = ['name']
+
     def save_subscription(self, feed_url, data, user):
         obj = self.get_subscription(feed_url, user)
-        for key, value in data.items():
-            if key != 'id' and hasattr(obj, key):
-                setattr(obj, key, value)
+
+        for fieldname in self._editable_fields:
+            if fieldname in data:
+                setattr(obj, fieldname, data[fieldname])
         obj.save()
         return obj
+
+    def delete_subscription(self, feed_url, user):
+        obj = self.get_subscription(feed_url, user)
+        obj.deleted_on = self.datetime.now()
+        obj.save()
 
 class FeedItemService(object):
 

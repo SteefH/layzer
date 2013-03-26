@@ -2,7 +2,7 @@
     "use strict";
 
     ng.module('modal', []).directive('modalWindow', ['$compile', '$timeout', function ($compile, $timeout) {
-        var modalScopeAttrs = ['close', 'header', 'submit', 'cancel', 'okText', 'cancelText'];
+        var modalScopeAttrs = ['close', 'header', 'submit', 'cancel', 'okText', 'cancelText', 'hideCancel'];
         var modal = ng.element(
             '<div class="modal-backdrop" ng-click="{{modal.cancel}};{{modal.close}}"></div>' +
             '<form class="modal" ng-submit="{{modal.close}}" name="modalForm" novalidate>' +
@@ -14,12 +14,13 @@
                 '</div>' +
                 '<div class="modal-footer">' +
                     '<button class="btn btn-large btn-primary" ng-click="{{modal.submit}}" ng-disabled="modalForm.$invalid"><i class="icon-ok"></i> {{modal.okText || \'OK\'}}</button>' +
-                    '<button class="btn btn-large" ng-click="{{modal.cancel}}"><i class="icon-remove"></i> {{modal.cancelText || \'Cancel\'}}</button>' +
+                    '<button class="btn btn-large" ng-hide="{{modal.hideCancel}}" ng-click="{{modal.cancel}}"><i class="icon-remove"></i> {{modal.cancelText || \'Cancel\'}}</button>' +
                 '</div>' +
             '</form>'
         );
 
         return {
+            scope: true,
             compile: function (element) {
                 var modalClone = modal.clone(),
                     children = element.children(),

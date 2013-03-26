@@ -31,6 +31,9 @@ class FeedSite(models.Model):
     site_url = models.URLField()
     name = models.TextField()
 
+    def __unicode__(self):
+        return "{0} ({1})".format(self.name, self.site_url)
+
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
     published_on = models.DateTimeField()

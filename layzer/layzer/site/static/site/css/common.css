@@ -102,6 +102,7 @@ body, html {
   .dropdown-hover:hover > ul {
     top: 100%; }
   .dropdown-hover > ul {
+    white-space: nowrap;
     padding-top: 15px;
     top: 80%;
     /*background-color: white\9;*/
