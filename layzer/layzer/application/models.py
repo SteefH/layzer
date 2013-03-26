@@ -25,6 +25,9 @@ class Feed(models.Model):
 
     objects = FeedManager()
 
+    def __unicode__(self):
+        return self.feed_url
+
 class FeedSite(models.Model):
 
     feed = models.ForeignKey(Feed)
