@@ -6,7 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from django.core.exceptions import MiddlewareNotUsed
+
 
 class AddSubscriptionTest(TestCase):
 
@@ -19,12 +19,8 @@ class AddSubscriptionTest(TestCase):
         self.user_2 = User(username="user 2")
         self.user_2.save()
 
-        from layzer.application.middleware import DependencyInjectionMiddleware as di
+        import layzer.startup
         import beject
-        try:
-            di()
-        except MiddlewareNotUsed:
-            pass
         self.subscriptions_service = beject.get('SubscriptionService')
         self.subscription_model = beject.get('subscription_model')
 

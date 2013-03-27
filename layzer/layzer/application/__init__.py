@@ -120,7 +120,7 @@ class SubscriptionService(object):
         obj.deleted_on = self.datetime.now()
         obj.save()
 
-class FeedItemService(object):
+class FeedItemStatusService(object):
 
     @beject.inject
     def __init__(self, feed_item_status_model, datetime):

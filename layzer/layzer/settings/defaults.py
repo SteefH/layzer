@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'layzer.application',
     'layzer.site',
     'layzer.api',
+    'layzer.layzerjobs',
     'social_auth',
     'south'
 )

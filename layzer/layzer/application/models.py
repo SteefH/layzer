@@ -40,6 +40,7 @@ class FeedSite(models.Model):
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
     published_on = models.DateTimeField()
+    publisher = models.CharField(max_length=1024, null=True)
     link = models.URLField()
     title = models.CharField(max_length=1024)
     short_body = models.TextField()
