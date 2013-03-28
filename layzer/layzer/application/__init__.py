@@ -5,6 +5,14 @@ logger = logging.getLogger(__name__)
 
 import beject
 
+
+@beject.inject(
+    feed='feed_model',
+    feed_site='feed_site_model',
+    subscription='subscription_model',
+    discovery='feeddiscovery',
+    datetime='datetime'
+)
 class SubscriptionService(object):
 
     class NoFeedException(Exception):
@@ -21,22 +29,6 @@ class SubscriptionService(object):
         pass
 
 
-    @classmethod
-    def create_default(cls):
-        """Create the default service
-        """
-        from layzer.application import models
-        from layzer.util import feeddiscovery
-        from datetime import datetime
-        return cls(models.Feed, models.Subscription, feeddiscovery, datetime)
-
-    @beject.inject
-    def __init__(self, feed_model, feed_site_model, subscription_model, feeddiscovery, datetime):
-        self.feed = feed_model
-        self.feed_site = feed_site_model
-        self.subscription = subscription_model
-        self.discovery = feeddiscovery
-        self.datetime = datetime
 
     def _get_or_create_feed(self, url):
         """
@@ -92,7 +84,8 @@ class SubscriptionService(object):
         subscription.save()
 
     def get_all(self, user):
-        subs =  self.subscription.objects.filter_by_user(user).select_related('feed')
+        s = self.subscription
+        subs =  s.objects.filter_by_user(user).select_related('feed')
         return subs
 
     def get_subscription(self, feed_url, user):
@@ -120,10 +113,15 @@ class SubscriptionService(object):
         obj.deleted_on = self.datetime.now()
         obj.save()
 
+
+@beject.inject(
+    'datetime',
+    feed_item_status='feed_item_status_model'
+)
 class FeedItemStatusService(object):
 
-    @beject.inject
-    def __init__(self, feed_item_status_model, datetime):
+
+    def s__init__(self, feed_item_status_model, datetime):
         self.feed_item_status = feed_item_status_model
         self.datetime = datetime
 
@@ -147,3 +145,33 @@ class FeedItemStatusService(object):
         status.save()
 
 
+@beject.inject(
+    feed_item='feed_item_model',
+    feed='feed_model'
+)
+class FeedService(object):
+
+    def get_feed(self, feed_url):
+        return self.feed.objects.get(feed_url=feed_url)
+
+    def get_all(self):
+        return self.feed.objects.all()
+
+@beject.inject(
+    feed_item='feed_item_model'
+)
+class FeedItemService(object):
+    def add_or_update_item(self,
+        feed, url, title, content, excerpt, published_on, author=None, author_link=None,
+        author_email=None
+    ):
+        try:
+            item = self.feed_item.objects.get(link=url, feed=feed)
+        except self.feed_item.DoesNotExist:
+            item = self.feed_item()
+            item.link = url
+            item.feed = feed
+        item.body = content
+        item.published_on = published_on
+        item.save()
+        return item

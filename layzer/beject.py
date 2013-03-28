@@ -1,4 +1,5 @@
 import inspect
+import functools
 
 class Singleton(object):
 
@@ -7,6 +8,40 @@ class Singleton(object):
 
     def instantiate(self):
         return self.item()
+
+def compose(*args):
+    fns = list(args)
+    f1 = fns.pop()
+    fns.reverse()
+    def call(*args, **kwds):
+        return functools.reduce(
+            (lambda result, fn: fn(result)), fns, f1(*args, **kwds)
+        )
+    return call
+
+def compose_with(*superargs):
+    def call(*args):
+        return compose(*(superargs + args))
+    return call
+
+@compose_with(property)
+class _lazyprop(object):
+
+    def __init__(self, fn):
+        self.fn = fn
+
+    def __call__(self, *args, **kwds):
+        try:
+            return self.value
+        except AttributeError:
+            pass
+        self.value = self.fn(*args, **kwds)
+        return self.value
+
+def ignore_args(fn):
+    def call(*_, **__):
+        return fn()
+    return call
 
 class Registry(object):
     _mapping = {}
@@ -27,9 +62,21 @@ class Registry(object):
         self._mapping = [m for m in self._mapping if m is not mapping]
         self._rebuildmapping()
 
-    def inject(self, fn):
-        argspec = inspect.getargspec(fn)
+    def _attr_inject(self, *args, **kwds):
+        def decorator(fn):
+            def createprop(f):
+                return _lazyprop(ignore_args(lambda: self.get(f)))
+            for field in args:
+                setattr(fn, field, createprop(field))
+            for name, value in kwds.items():
+                setattr(fn, name, createprop(value))
+            return fn
+        return decorator
 
+
+    def _args_inject(self, fn):
+        argspec = inspect.getargspec(fn)
+        @functools.wraps(fn)
         def decorator(*args, **kwds):
             if not kwds:
                 kwds = {}
@@ -39,9 +86,12 @@ class Registry(object):
                 if a in self._mapping:
                     kwds[a] = self.get(a)
             return fn(*args, **kwds)
-        decorator.__name__ = fn.__name__
-        decorator.__doc__ = fn.__doc__
         return decorator
+
+    def inject(self, *args, **kwds):
+        if len(args) == 1 and inspect.isroutine(args[0]):
+            return self._args_inject(args[0])
+        return self._attr_inject(*args, **kwds)
 
     def get(self, item):
         value = self._mapping[item]

@@ -1,23 +1,47 @@
 import beject
-
+import datetime
+from enumerable import enumerable
+import time
+@beject.inject(
+    'feed_service',
+    'feed_item_service',
+    'feedreader',
+)
 class UpdateFeedsJob(object):
 
-    @beject.inject
-    def __init__(self, feedreader, feed_model, feed_item_model):
-        self.feedreader = feedreader
-        self.feed_model = feed_model
-        self.feed_item_mode = feed_item_model
+    def read_feed(self, feed):
+        return feed, self.feedreader.read_feed(feed.feed_url)
 
-    def read_feeds(self):
-        for feed in self.feed_model.objects:
-            yield feed, self.read_feed(feed.feed_url)
+    def get_feed_items(self, args):
+        feed, parsed_feed = args
+        for item in parsed_feed.entries:
+            yield feed, item
 
+    def update_item(self, args):
+        feed, item = args
+        t = time.mktime(item.published_parsed)
 
-    def read_feed(self, url):
-        return self.feed_reader.read_feed(url)
+        print repr(datetime.datetime.fromtimestamp(t))
+        summary = item.get('summary', '')
+        content = item.get('content', summary)
+        author = item.get('author', '')
+        self.feed_item_service.add_or_update_item(
+            feed,
+            url=item['link'],
+            title=item['title'],
+            content=content,
+            excerpt=summary,
+            published_on=datetime.datetime.fromtimestamp(t),
+            author=author,
+            author_link=None,
+            author_email=None
+        )
+        print feed.feed_url, item.link
 
-    def get_feed_items(self, url):
-        for feed, read_feed in self.read_feeds():
-            for item in read_feed.items:
-                yield None
-
+    def run(self):
+        (
+            enumerable(self.feed_service.get_all())
+                .select(self.read_feed)
+                .selectmany(self.get_feed_items)
+                .forEach(self.update_item)
+        ).execute()

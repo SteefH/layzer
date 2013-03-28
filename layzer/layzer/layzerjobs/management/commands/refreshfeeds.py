@@ -1,7 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 import layzer.startup
-
+from layzer.layzerjobs import UpdateFeedsJob
 
 class Command(BaseCommand):
 
@@ -9,4 +9,4 @@ class Command(BaseCommand):
     help = "Refresh all subscriptions"
 
     def handle(self, *args, **kwds):
-        print 'ok'
+        UpdateFeedsJob().run()
