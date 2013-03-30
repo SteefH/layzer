@@ -46,6 +46,15 @@ class FeedItem(models.Model):
     short_body = models.TextField()
     body = models.TextField()
 
+    def __unicode__(self):
+        return self.link
+
+    def status_for_user(self, user):
+        try:
+            return self.statuses.get(user=user)
+        except FeedItemStatus.DoesNotExist:
+            return None
+
 class SubscriptionManager(models.Manager):
 
     def get_by_feed_and_user(self, feed, user):
@@ -66,9 +75,12 @@ class Subscription(models.Model):
 
     objects = SubscriptionManager()
 
+    def __unicode__(self):
+        return u'{!s} -> {}'.format(self.user, self.name)
+
 
 class FeedItemStatus(models.Model):
-    item = models.ForeignKey(FeedItem)
+    item = models.ForeignKey(FeedItem, related_name='statuses')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     kept_unread_on = models.DateTimeField(null=True, default=None)
     starred_on = models.DateTimeField(null=True, default=None)

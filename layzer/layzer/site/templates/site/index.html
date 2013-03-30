@@ -74,11 +74,23 @@
 </div>
 {% endblock %}
 {% block content %}
-<h1>hoi</h1>
+<div ng-view></div>
+<script type="text/ng-template" id="feeditems.html">
+
+<div>
+	<ul ng-show="items">
+		<li ng-repeat="item in items">
+			<h2 ng-bind="item.title"></h2>
+		</li>
+	</ul>
+</div>
+</script>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'site/app/controllers/subscriptions.js' %}"></script>
 <script src="{% static 'site/app/services/subscriptions.js' %}"></script>
+<script src="{% static 'site/app/controllers/feeditems.js' %}"></script>
+<script src="{% static 'site/app/services/feeditems.js' %}"></script>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 ;(function (ng) {
     ng.module('layzer').controller(
         'SubscriptionsCtrl',
-        ['$scope', 'subscriptionsservice', function($scope, subscriptions) {
+        ['$scope', 'subscriptionsservice', '$route', function($scope, subscriptions) {
             $scope.subscriptions = subscriptions.getAll();
             $scope.rename = {
                 active: false,
@@ -66,6 +66,9 @@
                 end: function () {
                     this.active = false;
                 }
+            };
+            $scope.subscriptionLink = function (s) {
+                return '#/feed/' + encodeURIComponent(s.id)
             }
         }]
     );

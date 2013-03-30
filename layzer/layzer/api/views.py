@@ -19,12 +19,14 @@ class Autho(Authorization):
         result = super(Autho, self).create_list(*args, **kwds)
         return result
 
-from lazyproperty import lazyproperty
 
 class SubscriptionObject(object):
     pass
 
 
+@beject.inject(
+    subscription_service='SubscriptionService'
+)
 class SubscriptionResource(Resource):
 
     site_url = fields.CharField(blank=False, readonly=True)
@@ -38,14 +40,6 @@ class SubscriptionResource(Resource):
         always_return_data = True
         include_resource_uri = True
         detail_uri_name = 'pk'
-
-    _subscription_service = None
-
-
-    @lazyproperty
-    @beject.inject
-    def subscription_service(self, SubscriptionService):
-        return SubscriptionService
 
     def prepend_urls(self):
         return [
@@ -112,3 +106,79 @@ class SubscriptionResource(Resource):
         })
         return bundle
 
+@beject.inject(
+    'feed_item_service'
+)
+class FeedItemResource(Resource):
+
+    item_url = fields.CharField(blank=False, readonly=True)
+    title = fields.CharField(readonly=True, null=True)
+    published_on = fields.DateTimeField(readonly=True)
+    body = fields.CharField(readonly=True)
+    feed = fields.CharField(readonly=True, null=True)
+    marked_read_on = fields.DateTimeField(null=True, readonly=True)
+    marked_read = fields.BooleanField()
+
+
+    class Meta(object):
+        object_class = SubscriptionObject
+        # authentication = SessionAuthentication()
+        authentication = Authentication()
+        authorization = Autho()
+        always_return_data = True
+        include_resource_uri = True
+        detail_uri_name = 'pk'
+        filtering = {
+            "feed": ('exact',),
+        }
+
+
+    def prepend_urls(self):
+        return [
+            url(
+                r"^(?P<resource_name>%s)/(?P<%s>.+)$" % (
+                    self._meta.resource_name,
+                    self._meta.detail_uri_name,
+                    #trailing_slash()
+                ),
+                self.wrap_view('dispatch_detail'),
+                name="api_dispatch_detail"
+            ),
+        ]
+
+    def dehydrate(self, bundle, for_list=False):
+        feed_item = bundle.obj
+
+        status = feed_item.status_for_user(bundle.request.user)
+        read_on = status and status.read_on
+
+        bundle.data.update({
+            'id': feed_item.link,
+            'item_url': feed_item.link,
+            'feed': feed_item.feed.feed_url,
+            'published_on': feed_item.published_on,
+            'marked_read_on': read_on,
+            'marked_read': read_on is not None,
+            'title': feed_item.title
+        })
+        return bundle
+
+    def build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
+        return super(FeedItemResource, self).build_filters(filters)
+
+    def obj_get_list(self, bundle, **kwargs):
+        filters = {}
+
+        if hasattr(bundle.request, 'GET'):
+            # Grab a mutable copy.
+            filters = bundle.request.GET.copy()
+
+        # Update with the provided kwargs.
+        filters.update(kwargs)
+        applicable_filters = self.build_filters(filters=filters)
+        filters = {}
+        if 'feed' in applicable_filters:
+            filters['feed__feed_url'] = applicable_filters['feed']
+        return self.feed_item_service.get_all(**filters)

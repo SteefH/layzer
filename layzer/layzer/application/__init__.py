@@ -121,10 +121,6 @@ class SubscriptionService(object):
 class FeedItemStatusService(object):
 
 
-    def s__init__(self, feed_item_status_model, datetime):
-        self.feed_item_status = feed_item_status_model
-        self.datetime = datetime
-
     def _get_status(self, feed_item, user):
         return self.feed_item_status.objects.get_or_create(
             feed_item=feed_item, user=user
@@ -171,7 +167,13 @@ class FeedItemService(object):
             item = self.feed_item()
             item.link = url
             item.feed = feed
+        item.title = title
+        item.short_body = excerpt
+        item.publisher = author
         item.body = content
         item.published_on = published_on
         item.save()
         return item
+
+    def get_all(self, **filters):
+        return self.feed_item.objects.filter(**filters)

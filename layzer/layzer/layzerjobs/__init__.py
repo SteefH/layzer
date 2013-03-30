@@ -23,7 +23,11 @@ class UpdateFeedsJob(object):
 
         print repr(datetime.datetime.fromtimestamp(t))
         summary = item.get('summary', '')
-        content = item.get('content', summary)
+        content = item.get('content', '')
+        if content:
+            content = content[0].value
+        else:
+            content = summary
         author = item.get('author', '')
         self.feed_item_service.add_or_update_item(
             feed,
