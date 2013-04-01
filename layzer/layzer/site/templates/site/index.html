@@ -1,6 +1,7 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
 {% block sidebar %}
+{% verbatim %}
 <div ng-controller="SubscriptionsCtrl">
 	
 	<button class="btn btn-primary btn-large btn-block" ng-click="subscribe.start()">Abonneren</button>
@@ -28,7 +29,9 @@
 	
 	<ul class="unstyled feed-list">
 		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
-			<span ng-bind="subscription.name"></span>
+			<a ng-href="#/feed/{{subscription.id}}">
+				<span ng-bind="subscription.name"></span>
+			</a>
 			<div class="options dropdown-hover pull-right">
 				<i class="icon-wrench"></i>
 				<ul>
@@ -72,6 +75,7 @@
 			<p ng-bind="alert.message"></p>
 	</div>
 </div>
+{% endverbatim %}
 {% endblock %}
 {% block content %}
 <div ng-view></div>
@@ -92,5 +96,6 @@
 <script src="{% static 'site/app/services/subscriptions.js' %}"></script>
 <script src="{% static 'site/app/controllers/feeditems.js' %}"></script>
 <script src="{% static 'site/app/services/feeditems.js' %}"></script>
+<script src="{% static 'site/app/filters/uriencode.js' %}"></script>
 
 {% endblock %}

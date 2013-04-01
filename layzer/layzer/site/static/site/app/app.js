@@ -2,7 +2,7 @@
     ng.module('layzer', ['ngResource', 'effects', 'input', 'modal']).config(
         ['$routeProvider',
          function ($routeProvider) {
-            $routeProvider.when('/feed/:feed', {
+            $routeProvider.when('/feed/*feed', {
                 templateUrl: 'feeditems.html',
                 controller: 'FeedItemsCtrl',
                 resolve: {
