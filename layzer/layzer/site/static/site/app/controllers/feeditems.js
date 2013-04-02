@@ -4,9 +4,17 @@
         ['$scope', 'feedItems', '$routeParams',
          function ($scope, feeditems, $routeParams) {
             $scope.items = feeditems;
-            if (0 && $routeParams.feed) {
-                $scope.items = feeditemsservice.getForFeed($routeParams.feed);
-            }
+            $scope._shownItem = {};
+            $scope.isShown = function (item) {
+                return item.id === $scope._shownItem;
+            };
+            $scope.showItem = function (item) {
+                if ($scope.isShown(item)) {
+                    $scope._shownItem = null;
+                } else {
+                    $scope._shownItem = item.id;
+                }
+            };
         }]
     );
 }(angular));

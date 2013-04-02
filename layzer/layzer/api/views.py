@@ -159,7 +159,8 @@ class FeedItemResource(Resource):
             'published_on': feed_item.published_on,
             'marked_read_on': read_on,
             'marked_read': read_on is not None,
-            'title': feed_item.title
+            'title': feed_item.title,
+            'body': feed_item.body
         })
         return bundle
 

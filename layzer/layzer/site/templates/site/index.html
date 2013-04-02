@@ -80,14 +80,19 @@
 {% block content %}
 <div ng-view></div>
 <script type="text/ng-template" id="feeditems.html">
-
+{% verbatim %}
 <div>
-	<ul ng-show="items">
+	<ul ng-show="items" class="unstyled">
 		<li ng-repeat="item in items">
-			<h2 ng-bind="item.title"></h2>
+			<h1 ng-bind="item.title" ng-click="showItem(item)" ng-show="!isShown(item)"></h1>
+			<article ng-show="isShown(item)">
+			<h1><a ng-href="{{item.item_url}}" target="_blank" ng-bind="item.title"></a></h1>
+			<div ng-bind-html-unsafe="item.body"></div>
+			</article>
 		</li>
 	</ul>
 </div>
+{% endverbatim %}
 </script>
 {% endblock %}
 
