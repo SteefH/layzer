@@ -2,7 +2,7 @@
   display: none;
 }
 
-body {
+html, body {
 	/*color: #fff;*/
 	position: absolute;
 	top: 0;
@@ -11,6 +11,7 @@ body {
 	right: 0;
 	padding: 0;
   font-weight: 400;
+  overflow-y: hidden;
 }
 
 .sidebar {
@@ -31,7 +32,6 @@ body {
 body > .container,
 body > .container-fluid,
 .feed-list {
-	margin-top: 20px;
 
 }
 
@@ -220,4 +220,75 @@ h1 small {
   color: #F39C12;
   font-size: 1.4ex;
   margin-left: -0.25ex;
+}
+
+.article h1, .article .header {
+  font-size: 1em;
+  margin: 0;
+  line-height: 2.5em;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+
+.article .header {
+  padding: 0 20px;
+}
+.article .header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.article article h1 {
+  font-weight:bold;
+  font-size: 1.5em;
+  line-height: 2em;
+}
+.article article h1 a {
+  text-decoration:none;
+}
+
+.article {
+  border-top: 1px solid #7F8C8D;
+  
+}
+.article article,
+.article article img {
+  max-width:650px;
+}
+
+.content {
+  top: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.rel {
+  position: relative;
+}
+
+.content-wrap {
+  position: absolute;
+  top: 51px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.content-wrap > .row-fluid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.content-wrap > .row-fluid > [class^="span"],
+.content-wrap > .row-fluid > [class~=" span"] {
+  height:100%;
 }

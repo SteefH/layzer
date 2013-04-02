@@ -22,11 +22,6 @@
 					
 					{% if user.is_authenticated %}
 						<div class="nav-collapse collapse">
-							<ul class="nav">
-								<li class="span5">
-									{* % include 'site/includes/addsubscription.html' % *}
-								</li>
-							</ul>
 							<ul class="nav pull-right">
 								<li class="user-menu"><a href="#">{{user.username}}</a>
 									<ul>
@@ -41,14 +36,14 @@
 				
 			</div>
 		</div>
-		<div class="container-fluid">
+		<div class="container-fluid content-wrap">
 			<div class="row-fluid">
 				{% block body %}
 					<div class="span2">
 						{% block sidebar %}
 						{% endblock %}
 					</div>
-					<div class="span10">
+					<div class="span10 rel">
 						{% block content %}
 						{% endblock %}
 					</div>
@@ -72,6 +67,7 @@
 		<script src="{% static 'site/app/modules/input.js' %}"></script>
 		<script src="{% static 'site/app/modules/modal.js' %}"></script>
 		<script src="{% static 'site/app/app.js' %}"></script>
+		<script src="{% static 'site/app/directives/scroll.js' %}"></script>
 		{% block scripts %}
 		{% endblock %}
 	</body>

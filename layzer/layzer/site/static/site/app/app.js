@@ -7,7 +7,7 @@
                 controller: 'FeedItemsCtrl',
                 resolve: {
                     feedItems: ['feeditemsservice', '$route', function (items, $route) {
-                        return items.getForFeed($route.current.params.feed);
+                        return items.getForFeed(decodeURIComponent($route.current.params.feed));
                     }]
                 }
             });

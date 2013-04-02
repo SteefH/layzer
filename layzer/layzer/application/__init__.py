@@ -176,4 +176,4 @@ class FeedItemService(object):
         return item
 
     def get_all(self, **filters):
-        return self.feed_item.objects.filter(**filters)
+        return self.feed_item.objects.filter(**filters).order_by('-published_on')

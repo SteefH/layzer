@@ -1,9 +1,10 @@
 ;(function (ng) {
     ng.module('layzer').controller(
         'FeedItemsCtrl',
-        ['$scope', 'feedItems', '$routeParams',
-         function ($scope, feeditems, $routeParams) {
-            $scope.items = feeditems;
+        ['$scope', 'feedItems', '$routeParams', 'feeditemsservice',
+         function ($scope, feeditems, $routeParams, feeditemsservice) {
+            $scope.items = feeditems.items;
+            $scope.hasNext = feeditems.hasNext;
             $scope._shownItem = {};
             $scope.isShown = function (item) {
                 return item.id === $scope._shownItem;
@@ -15,6 +16,12 @@
                     $scope._shownItem = item.id;
                 }
             };
+            $scope.loadMore = function () {
+                feeditemsservice.nextForFeed($routeParams.feed).then(function (items) {
+                    $scope.items = items.items;
+                    $scope.hasNext = items.hasNext;
+                })
+            }
         }]
     );
 }(angular));

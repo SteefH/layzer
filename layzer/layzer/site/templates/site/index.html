@@ -29,7 +29,7 @@
 	
 	<ul class="unstyled feed-list">
 		<li ng-repeat="subscription in subscriptions" ng-cloak class="subscription">
-			<a ng-href="#/feed/{{subscription.id}}">
+			<a ng-href="#/feed/{{subscription.id | uriencode}}">
 				<span ng-bind="subscription.name"></span>
 			</a>
 			<div class="options dropdown-hover pull-right">
@@ -81,16 +81,22 @@
 <div ng-view></div>
 <script type="text/ng-template" id="feeditems.html">
 {% verbatim %}
-<div>
+<div class="content" lz-scrollable="y">
 	<ul ng-show="items" class="unstyled">
-		<li ng-repeat="item in items">
-			<h1 ng-bind="item.title" ng-click="showItem(item)" ng-show="!isShown(item)"></h1>
-			<article ng-show="isShown(item)">
+		<li ng-repeat="item in items" class="article row-fluid" lz-scroll-into-view="isShown(item)">
+			<div class="header" ng-click="showItem(item)">
+			<h1 ng-bind="item.title" class="pull-left"></h1>
+			<span class="pull-right" ng-bind="item.published_on | date:'short'"></span>
+			</div>
+			<div effects-slide="isShown(item)" effects-slide-progress="scrollIntoView()">
+			<article effects-fade="isShown(item)" class="">
 			<h1><a ng-href="{{item.item_url}}" target="_blank" ng-bind="item.title"></a></h1>
 			<div ng-bind-html-unsafe="item.body"></div>
 			</article>
+			</div>
 		</li>
 	</ul>
+	<button ng-click="loadMore()" class="btn btn-primary" ng-show="hasNext">Meer...</button>
 </div>
 {% endverbatim %}
 </script>

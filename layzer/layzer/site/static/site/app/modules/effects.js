@@ -9,22 +9,35 @@
             initiallyHidden = options.initiallyHidden,
             ucName = ng.uppercase(options.name.substr(0, 1)) + options.name.substr(1),
             directiveName = 'effects' + ucName,
-            speedName = 'effects' + ucName + 'Speed';
+            speedName = 'effects' + ucName + 'Speed',
+            progressName = 'effects' + ucName + 'Progress';
 
         directive(directiveName, ['$timeout', function ($timeout) {
             var link;
 
             link = function (scope, element, attributes) {
                 var expr = attributes[directiveName],
-                    speed = 'fast';
+                    speed = 'fast', progress, progressFunc;
                 try {
                     speed = ng.fromJson(attributes[speedName]);
                 } catch (e) {
                     // nothing
                 }
+
+                if (progressFunc = attributes[progressName]) {
+                    progress = function () {
+                        scope.$eval(progressFunc);
+                    };
+                } else {
+                    progress = ng.noop;
+                }
+
                 scope.$watch(expr, function (value) {
                     element.stop(true);
-                    element[value ? inFunc : outFunc](speed);
+                    element[value ? inFunc : outFunc]({
+                        duration: speed,
+                        progress: value ? progress : ng.noop
+                    });
                 });
                 element[scope.$eval(expr) ? 'show' : 'hide']();
             };
