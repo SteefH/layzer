@@ -5,6 +5,7 @@ from layzer.util import feeddiscovery
 from layzer.application import SubscriptionService, FeedService, FeedItemService
 from datetime import datetime
 from layzer.util import feedreader
+from layzer.util.content_transform import Transformer
 
 beject.register({
     'feed_model': models.Feed,
@@ -17,5 +18,7 @@ beject.register({
     'SubscriptionService': beject.Singleton(SubscriptionService),
     'feed_service': beject.Singleton(FeedService),
     'feed_item_service': beject.Singleton(FeedItemService),
-    'feedreader': feedreader
+    'feedreader': feedreader,
+    'feed_content_transformer':beject.Singleton(Transformer)
+
 })

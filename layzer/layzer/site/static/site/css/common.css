@@ -232,8 +232,15 @@ h1 small {
 
 
 .article .header {
-  padding: 0 20px;
+  padding: 0 20px 0 0;
+  border-top: 1px solid #7F8C8D;
 }
+
+.article:first-child .header {
+  border-top: 0;
+}
+
+
 .article .header:after {
   content: "";
   display: table;
@@ -249,10 +256,10 @@ h1 small {
   text-decoration:none;
 }
 
-.article {
-  border-top: 1px solid #7F8C8D;
-  
+.article article {
+  padding-bottom: 20px;
 }
+
 .article article,
 .article article img {
   max-width:650px;
