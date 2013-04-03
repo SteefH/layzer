@@ -13,15 +13,19 @@
                 if ($scope.isShown(item)) {
                     $scope._shownItem = null;
                 } else {
+                    item.bodyIfShown = item.body;
                     $scope._shownItem = item.id;
                 }
             };
             $scope.loadMore = function () {
-                feeditemsservice.nextForFeed($routeParams.feed).then(function (items) {
-                    $scope.items = items.items;
-                    $scope.hasNext = items.hasNext;
-                })
-            }
+                if ($scope.hasNext) {
+                    feeditemsservice.nextForFeed($routeParams.feed).then(function (items) {
+                        $scope.items = items.items;
+                        $scope.hasNext = items.hasNext;
+                    });
+                }
+            };
+
         }]
     );
 }(angular));

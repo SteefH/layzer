@@ -25,19 +25,21 @@
                     return this.getForFeed(feedUrl);
                 }
                 if (!forThisFeed.promise) {
-                    forThisFeed.promise = $q.defer();
-                    $http.get(forThisFeed.next).then(function (result) {
-                        forThisFeed.next = result.data.meta.next;
-                        forThisFeed.objects = forThisFeed.objects.concat(result.data.objects);
-                        var promise = forThisFeed.promise;
-                        forThisFeed.promise = null;
-                        promise.resolve({
+                    forThisFeed.promise = $http.get(
+                        forThisFeed.next
+                    ).then(function (result) {
+                        ng.extend(forThisFeed, {
+                            next: result.data.meta.next,
+                            objects: forThisFeed.objects.concat(result.data.objects),
+                            promise: null
+                        });
+                        return {
                             items: forThisFeed.objects,
                             hasNext: !!result.data.meta.next
-                        });
+                        };
                     });
                 }
-                return forThisFeed.promise.promise;
+                return forThisFeed.promise;
             }
         }
 

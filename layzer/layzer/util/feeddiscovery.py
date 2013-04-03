@@ -1,6 +1,6 @@
 import urlparse
 import re
-
+import HTMLParser
 import requests
 
 
@@ -16,6 +16,7 @@ _link_filter = {
 }
 
 def _handle_html(r, visited_urls):
+    hparser = HTMLParser.HTMLParser()
     page = BeautifulSoup(r.text)
 
     links = page.find_all('link',**_link_filter)
@@ -23,6 +24,7 @@ def _handle_html(r, visited_urls):
         href = link.get('href')
         if not href:
             continue
+        href = hparser.unescape(href)
         href = urlparse.urljoin(r.url, href)
         result = _discoverfeed(href, visited_urls)
         if result:

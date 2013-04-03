@@ -81,7 +81,7 @@
 <div ng-view></div>
 <script type="text/ng-template" id="feeditems.html">
 {% verbatim %}
-<div class="content" lz-scrollable="y">
+<div class="content" lz-scrollable="y" lz-scrolled-to-bottom="loadMore()">
 	<ul ng-show="items" class="unstyled">
 		<li ng-repeat="item in items" class="article row-fluid" lz-scroll-into-view="isShown(item)">
 			<div class="header" ng-click="showItem(item)">
@@ -91,12 +91,12 @@
 			<div effects-slide="isShown(item)" effects-slide-progress="scrollIntoView()">
 			<article effects-fade="isShown(item)" class="">
 			<h1><a ng-href="{{item.item_url}}" target="_blank" ng-bind="item.title"></a></h1>
-			<div ng-bind-html-unsafe="item.body"></div>
+			<div ng-bind-html-unsafe="item.bodyIfShown"></div>
 			</article>
 			</div>
 		</li>
 	</ul>
-	<button ng-click="loadMore()" class="btn btn-primary" ng-show="hasNext">Meer...</button>
+	<p ng-hide="hasNext">Geen items meer...</p>
 </div>
 {% endverbatim %}
 </script>
