@@ -116,15 +116,24 @@ class SubscriptionService(object):
 
 @beject.inject(
     'datetime',
+    feed_item='feed_item_model',
     feed_item_status='feed_item_status_model'
 )
 class FeedItemStatusService(object):
 
+    class DoesNotExistException(Exception):
+        pass
 
-    def _get_status(self, feed_item, user):
-        return self.feed_item_status.objects.get_or_create(
-            feed_item=feed_item, user=user
+
+    def _get_status(self, feed_item_url, user):
+        try:
+            feed_item = self.feed_item.objects.get(link=feed_item_url)
+        except self.feed_item.DoesNotExist:
+            raise self.DoesNotExistException()
+        obj, created = self.feed_item_status.objects.get_or_create(
+            item=feed_item, user=user
         )
+        return obj
 
     def mark_read(self, feed_item, user):
         status = self._get_status(feed_item, user)
@@ -134,6 +143,7 @@ class FeedItemStatusService(object):
         status.read_on = self.datetime.now()
         status.kept_unread_on = None
         status.save()
+        return status
 
     def star_item(self, feed_item, user):
         status = self._get_status(feed_item, user)

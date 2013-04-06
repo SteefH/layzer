@@ -179,7 +179,7 @@ body, html {
       border-radius: 2px;
       color: white;
       display: block;
-      font-size: 14px;
+      /*font-size: 12px;*/
       padding: 6px 9px;
       text-decoration: none; }
       .dropdown-hover ul a:hover {
@@ -230,6 +230,18 @@ h1 small {
   cursor: pointer;
 }
 
+.article.read .header {
+  background-color:#ECF0F1;
+  color: #7F8C8D;
+}
+
+
+.article .header h1 {
+  font-weight: bold;
+}
+.article.read .header h1 {
+  font-weight: normal;
+}
 
 .article .header {
   padding: 0 20px 0 0;
@@ -281,8 +293,8 @@ h1 small {
 
 .content-wrap {
   position: absolute;
-  top: 51px;
-  left: 0;
+  top: 71px;
+  left: 20px;
   right: 0;
   bottom: 0;
 }

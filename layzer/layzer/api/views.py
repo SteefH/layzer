@@ -107,7 +107,8 @@ class SubscriptionResource(Resource):
         return bundle
 
 @beject.inject(
-    'feed_item_service'
+    'feed_item_service',
+    'feed_item_status_service'
 )
 class FeedItemResource(Resource):
 
@@ -146,6 +147,14 @@ class FeedItemResource(Resource):
             ),
         ]
 
+    def detail_uri_kwargs(self, bundle_or_obj):
+        if isinstance(bundle_or_obj, Bundle):
+            obj = bundle_or_obj.obj
+        else:
+            obj = bundle_or_obj
+
+        return {'pk': urllib.quote(obj.link, '') }
+
     def dehydrate(self, bundle, for_list=False):
         feed_item = bundle.obj
 
@@ -183,3 +192,11 @@ class FeedItemResource(Resource):
         if 'feed' in applicable_filters:
             filters['feed__feed_url'] = applicable_filters['feed']
         return self.feed_item_service.get_all(**filters)
+
+    def obj_update(self, bundle, **kwargs):
+        if bundle.data['marked_read']:
+            status = self.feed_item_status_service.mark_read(
+                kwargs['pk'], bundle.request.user
+            )
+            bundle.obj = status.item
+        return bundle

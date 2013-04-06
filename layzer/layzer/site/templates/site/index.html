@@ -5,7 +5,7 @@
 <div ng-controller="SubscriptionsCtrl">
 	
 	<button class="btn btn-primary btn-large btn-block" ng-click="subscribe.start()">Abonneren</button>
-	<div ng-form effects-fade="subscribe.active" effects-fade-speed="200" ng-cloak
+	<div ng-form ng-show="subscribe.active" ng-cloak
 			modal-window
 			header="Abonneren"
 			close="subscribe.end()"
@@ -13,6 +13,8 @@
 			ok-text="Abonneren"
 			cancel-text="Annuleren"
 			input-on-escape="subscribe.end()"
+			ng-animate="an.fade"
+			style="display:none"
 			>
 			<p>Voer het adres van een site of een RSS feed in:</p>
 			<div class="control-group" ng-class="errorClass('url')">
@@ -41,7 +43,7 @@
 			</div>
 		</li>
 	</ul>
-	<div effects-fade="rename.active" effects-fade-speed="200" ng-cloak
+	<div ng-show="rename.active" ng-cloak
 			modal-window
 			header="Naam wijzigen"
 			close="rename.end()"
@@ -49,6 +51,8 @@
 			ok-text="Opslaan"
 			cancel-text="Annuleren"
 			input-on-escape="rename.end()"
+			ng-animate="an.fade"
+			style="display:none"
 			>
 			<p>Voer een nieuwe naam in voor deze site:</p>
 			<div class="control-group" ng-class="errorClass('url')">
@@ -56,21 +60,25 @@
 			</div>
 	</div>
 	
-	<div effects-fade="remove.active" effects-fade-speed="200" ng-cloak
+	<div ng-show="remove.active" ng-cloak
 			modal-window
 			header="Verwijderen"
 			close="remove.end()"
 			submit="remove.submit()"
 			ok-text="Ja"
 			cancel-text="Nee"
+			ng-animate="an.fade"
+			style="display:none"
 			>
 			<p>Weet je zeker dat je <strong ng-bind="remove.subscription.name"></strong> wilt verwijderen?</p>
 	</div>
-		<div effects-fade="alert.active" effects-fade-speed="200" ng-cloak
+		<div ng-show="alert.active" ng-cloak
 			modal-window
 			close="alert.end()"
 			ok-text="Sluiten"
 			hide-cancel="true"
+			ng-animate="an.fade"
+			style="display:none"
 			>
 			<p ng-bind="alert.message"></p>
 	</div>
@@ -79,27 +87,27 @@
 {% endblock %}
 {% block content %}
 <div ng-view></div>
-<script type="text/ng-template" id="feeditems.html">
+<script type="text/ng-template" id="feeditems.html">{% spaceless %}
 {% verbatim %}
 <div class="content" lz-scrollable="y" lz-scrolled-to-bottom="loadMore()">
 	<ul ng-show="items" class="unstyled">
-		<li ng-repeat="item in items" class="article row-fluid" lz-scroll-into-view="isShown(item)">
+		<li ng-repeat="item in items" class="article row-fluid" lz-scroll-into-view="isShown(item)" ng-class="itemClass(item)">
 			<div class="header" ng-click="showItem(item)">
-			<h1 ng-bind="item.title" class="pull-left"></h1>
-			<span class="pull-right" ng-bind="item.published_on | date:'short'"></span>
+				<h1 ng-bind="item.title" class="pull-left"></h1>
+				<span class="pull-right" ng-bind="item.published_on | date:'short'"></span>
 			</div>
-			<div effects-slide="isShown(item)" effects-slide-progress="scrollIntoView()">
-			<article effects-fade="isShown(item)" class="">
-			<h1><a ng-href="{{item.item_url}}" target="_blank" ng-bind="item.title"></a></h1>
-			<div ng-bind-html-unsafe="item.bodyIfShown"></div>
-			</article>
+			<div ng-show="isShown(item)" ng-animate="an.slide">
+				<article ng-show="isShown(item)" ng-animate="an.fade" style="display:none">
+					<h1><a ng-href="{{item.item_url}}" target="_blank" ng-bind="item.title"></a></h1>
+					<div ng-bind-html-unsafe="item.bodyIfShown"></div>
+				</article>
 			</div>
 		</li>
 	</ul>
 	<p ng-hide="hasNext">Geen items meer...</p>
 </div>
 {% endverbatim %}
-</script>
+{% endspaceless %}</script>
 {% endblock %}
 
 {% block scripts %}

@@ -17,7 +17,7 @@
             var e = element[0];
             element.scroll(function () {
                 if (e.offsetHeight + e.scrollTop >= e.scrollHeight) {
-                    scope.$eval(attrs.lzScrolledToBottom)
+                    scope.$apply(attrs.lzScrolledToBottom)
                 }
             });
         };
