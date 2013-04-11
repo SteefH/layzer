@@ -3,6 +3,17 @@
     var slideSpeed = 300,
         fadeSpeed = 300;
 
+    function getAnimateProgress(element) {
+        var progress = element.attr('ng-animate-progress') ||
+                       element.data('ng-animate-progress'),
+            scope = element.scope();
+        if (progress) {
+            return function () {
+                scope.$apply(progress);
+            };
+        }
+        return ng.noop;
+    };
 
     ng.module('layzer', ['ngResource',  'input', 'modal']).config(
         ['$routeProvider',
@@ -23,7 +34,11 @@
                 e.hide();
             },
             start: function (element, done) {
-                element.slideDown(slideSpeed, function () {done();});
+                element.slideDown({
+                    duration: slideSpeed,
+                    done: function () {done();},
+                    progress: getAnimateProgress(element)
+                });
             }
         };
     }).animation('slide-up', function () {
@@ -32,7 +47,11 @@
                 e.show();
             },
             start: function (element, done) {
-                element.slideUp(slideSpeed, function () {done();});
+                element.slideUp({
+                    duration: slideSpeed,
+                    done: function () {done();},
+                    progress: getAnimateProgress(element)
+                });
             }
         };
     }).animation('fade-in', function () {
@@ -43,7 +62,8 @@
             start: function (element, done) {
                 element.animate({opacity: 1}, {
                     duration: fadeSpeed,
-                    done: function () { done(); }
+                    done: function () { done(); },
+                    progress: getAnimateProgress(element)
                 });
             }
         };
@@ -55,7 +75,8 @@
             start: function (element, done) {
                 element.animate({opacity: 0}, {
                     duration: fadeSpeed,
-                    done: function () { done(); }
+                    done: function () { done(); },
+                    progress: getAnimateProgress(element)
                 });
             }
         };
