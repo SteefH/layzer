@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 import beject
 
-
+@beject.define('SubscriptionService', beject.Singleton)
 @beject.inject(
     feed='feed_model',
     feed_site='feed_site_model',
@@ -113,7 +113,7 @@ class SubscriptionService(object):
         obj.deleted_on = self.datetime.now()
         obj.save()
 
-
+@beject.define('feed_item_status_service', beject.Singleton)
 @beject.inject(
     'datetime',
     feed_item='feed_item_model',

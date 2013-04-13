@@ -29,7 +29,6 @@ class UpdateFeedsJob(object):
         feed, item = args
         t = time.mktime(item.published_parsed)
 
-        print repr((item.published_parsed, item.published))
         summary = item.get('summary', '')
         content = item.get('content', '')
         if content:

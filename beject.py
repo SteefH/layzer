@@ -46,9 +46,11 @@ def ignore_args(fn):
 class Registry(object):
     _mapping = {}
     _registry = []
+    _defined = {}
 
     def _rebuildmapping(self):
         result = {}
+        result.update(self._defined)
         for r in self._registry:
             result.update(r)
         self._mapping = result
@@ -100,9 +102,19 @@ class Registry(object):
             self._mapping[item] = value
         return value
 
+    def define(self, name, modifier=None):
+        def decorator(fn):
+            val = fn
+            if modifier:
+                val = modifier(val)
+            self._defined[name] = val
+            return fn
+        return decorator
+
 _registry = Registry()
 
 register = _registry.register
 unregister = _registry.unregister
 inject = _registry.inject
 get = _registry.get
+define = _registry.define

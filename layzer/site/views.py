@@ -11,7 +11,6 @@ def home(request):
     """The home page view
     """
     from django.template.loaders.app_directories import app_template_dirs
-    print app_template_dirs
     return render_to_response(
         'site/index.html',
         context_instance=RequestContext(request)
