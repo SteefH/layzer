@@ -1,5 +1,4 @@
 import beject
-
 from layzer.application import models
 from layzer.util import feeddiscovery
 from layzer.application import SubscriptionService, FeedService, FeedItemService, FeedItemStatusService
@@ -15,10 +14,10 @@ beject.register({
     'subscription_model': models.Subscription,
     'feeddiscovery': feeddiscovery,
     'datetime': datetime,
-    # 'SubscriptionService': beject.Singleton(SubscriptionService),
-    #'feed_service': beject.Singleton(FeedService),
+    'SubscriptionService': beject.Singleton(SubscriptionService),
+    'feed_service': beject.Singleton(FeedService),
     'feed_item_service': beject.Singleton(FeedItemService),
-    #'feed_item_status_service': beject.Singleton(FeedItemStatusService),
+    'feed_item_status_service': beject.Singleton(FeedItemStatusService),
     'feedreader': feedreader,
     'feed_content_transformer':beject.Singleton(Transformer)
 

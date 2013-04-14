@@ -1,5 +1,6 @@
 {% extends 'site/layout.html' %}
 {% load static from staticfiles %}
+{% load compress %}
 {% block sidebar %}
 {% verbatim %}
 <div ng-controller="SubscriptionsCtrl">
@@ -111,10 +112,11 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'site/app/controllers/subscriptions.js' %}"></script>
+{% compress js %}
+<script type="text/coffeescript" src="{% static 'site/app/controllers/subscriptions.coffee' %}"></script>
 <script src="{% static 'site/app/services/subscriptions.js' %}"></script>
-<script src="{% static 'site/app/controllers/feeditems.js' %}"></script>
 <script src="{% static 'site/app/services/feeditems.js' %}"></script>
+<script type="text/coffeescript" src="{% static 'site/app/controllers/feeditems.coffee' %}"></script>
 <script src="{% static 'site/app/filters/uriencode.js' %}"></script>
-
+{% endcompress %}
 {% endblock %}

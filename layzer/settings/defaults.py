@@ -12,8 +12,7 @@ def pp(*path_parts):
     """
     return os.path.abspath(os.path.join(PROJECT_DIR, *path_parts))
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
 
 
 
@@ -80,7 +79,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = pp('static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -99,6 +98,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -151,7 +151,8 @@ INSTALLED_APPS = (
     'layzer.api',
     'layzer.layzerjobs',
     'social_auth',
-    'south'
+    'south',
+    "compressor",
 )
 
 # A sample logging configuration. The only tangible logging
@@ -229,3 +230,8 @@ LOGOUT_URL = 'layzer.site.views.logout'
 LOGIN_REDIRECT_URL = '/'
 
 TASTYPIE_ALLOW_MISSING_SLASH=True
+
+
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+)

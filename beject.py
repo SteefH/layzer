@@ -118,3 +118,4 @@ unregister = _registry.unregister
 inject = _registry.inject
 get = _registry.get
 define = _registry.define
+
