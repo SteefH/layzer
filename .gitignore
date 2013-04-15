@@ -167,7 +167,7 @@ pip-log.txt
 /env/
 /static/
 /beject/
-/layzer/layzer/settings/dev.py
+/layzer/settings/dev.py
 
 *.sublime-project
 *.sublime-workspace
