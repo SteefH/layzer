@@ -1,7 +1,7 @@
 ng = @angular
 
 ng.module('layzer').controller 'FeedItemsCtrl', [
-    '$scope', 'feedItems', '$routeParams', 'feeditemsservice',
+    '$scope', 'feedItems', '$routeParams', 'feeditemsservice'
     ($scope ,  feeditems ,  $routeParams ,  feeditemsservice) ->
 
         ng.extend $scope,

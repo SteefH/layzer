@@ -114,8 +114,8 @@
 {% block scripts %}
 {% compress js %}
 <script type="text/coffeescript" src="{% static 'site/app/controllers/subscriptions.coffee' %}"></script>
-<script src="{% static 'site/app/services/subscriptions.js' %}"></script>
-<script src="{% static 'site/app/services/feeditems.js' %}"></script>
+<script type="text/coffeescript" src="{% static 'site/app/services/subscriptions.coffee' %}"></script>
+<script type="text/coffeescript" src="{% static 'site/app/services/feeditems.coffee' %}"></script>
 <script type="text/coffeescript" src="{% static 'site/app/controllers/feeditems.coffee' %}"></script>
 <script src="{% static 'site/app/filters/uriencode.js' %}"></script>
 {% endcompress %}

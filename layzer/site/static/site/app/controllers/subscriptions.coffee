@@ -2,7 +2,7 @@
 ng = @angular
 
 ng.module('layzer').controller 'SubscriptionsCtrl', [
-    '$scope', 'subscriptionsservice',
+    '$scope', 'subscriptionsservice'
     ($scope,   subscriptions) ->
         $scope.subscriptions = subscriptions.getAll()
         $scope.rename =

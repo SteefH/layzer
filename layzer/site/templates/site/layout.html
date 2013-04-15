@@ -1,13 +1,14 @@
-{% load static from staticfiles %}
-{% load compress %}<!DOCTYPE html>
+{% load static from staticfiles %}{% load compress %}<!DOCTYPE html>
 <html>
 	<head>
+		{% compress css %}
 		<link rel="stylesheet" href="{% static "site/iconic/iconic_fill.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/flat-ui/css/bootstrap.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/flat-ui/css/flat-ui.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/font-awesome/css/font-awesome.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/css/common.css" %}" type="text/css" />
 		<link rel="stylesheet" href="{% static "site/css/animations.css" %}" type="text/css" />
+		{% endcompress %}
 	</head>
 	<body ng-app="layzer" class="">
 		{% block outer %}
@@ -63,16 +64,13 @@
 		<script src="{% static 'site/flat-ui/js/bootstrap-tooltip.js' %}"></script>
 		<script src="{% static 'site/flat-ui/js/jquery.placeholder.js' %}"></script>
 		<script src="{% static 'site/flat-ui/js/application.js' %}"></script>
-		{% endcompress %}
 		
-		<!-- script src="{% static 'site/bootstrap/js/bootstrap.js' %}"></script -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular-resource.js"></script>
-		{% compress js %}
-		<!-- script src="{% static 'site/app/modules/effects.js' %}"></script -->
-		<script src="{% static 'site/app/modules/input.js' %}"></script>
-		<script src="{% static 'site/app/modules/modal.js' %}"></script>
-		<script src="{% static 'site/app/app.js' %}"></script>
+		<script src="{% static 'site/angular-1.1.4/angular.js' %}"></script>
+		<script src="{% static 'site/angular-1.1.4/angular-resource.js' %}"></script>
+
+		<script type="text/coffeescript" src="{% static 'site/app/modules/input.coffee' %}"></script>
+		<script type="text/coffeescript" src="{% static 'site/app/modules/modal.coffee' %}"></script>
+		<script type="text/coffeescript" src="{% static 'site/app/app.coffee' %}"></script>
 		<script type="text/coffeescript" src="{% static 'site/app/directives/scroll.coffee' %}"></script>
 		{% block scripts %}
 		{% endblock %}
