@@ -19,7 +19,10 @@ m.directive 'autoFocus', [
       e = element[0]
       scope.$watch attrs.autoFocus, (value) ->
         $timeout ->
-          e[if value then 'focus' else 'blur']()
-          e.select() if value
+          if value
+            e.focus()
+            e.select()
+          else
+            e.blur()
     priority: -10000
 ]
